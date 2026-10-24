@@ -5,6 +5,7 @@ import { cafe, plans } from "./config";
 import { useRef } from "react";
 import ContactHandoff from "./ContactHandoff";
 import { useSiteMotion } from "./useSiteMotion";
+import SessionPricing from "./SessionPricing";
 
 const heroImage = "https://images.unsplash.com/photo-1593305841991-05c297ba4575?auto=format&fit=crop&w=1800&q=85";
 const consoleImage = "https://images.unsplash.com/photo-1606144042614-b2417e99c4e3?auto=format&fit=crop&w=1100&q=85";
@@ -18,7 +19,7 @@ function storedRequest() {
 
 function Brand({ small = false }) {
   return <Link to="/" className={"brand " + (small ? "brand-small" : "")} aria-label="Pixel Paradise home">
-    <span className="brand-mark" aria-hidden="true"><span/><span/><span/><span/></span>
+    <img className="brand-logo" src="/pixel-paradise-logo.svg" width="49" height="49" alt="" decoding="async"/>
     <span className="brand-word">PIXEL<span>PARADISE</span><small>GAMING CAFE</small></span>
   </Link>;
 }
@@ -33,6 +34,7 @@ function SiteHeader({ onBook, member }) {
       <nav className={"nav-links " + (open ? "nav-open" : "")} aria-label="Main navigation">
         <NavLink to="/" end>Home</NavLink>
         <a href="/#experience" onClick={() => setOpen(false)}>The experience</a>
+        <a href="/#pricing" onClick={() => setOpen(false)}>Pricing</a>
         <NavLink to="/membership">Membership</NavLink>
         <a href="/#location" onClick={() => setOpen(false)}>Find us</a>
         <NavLink to="/my-pass">{member ? "My pass" : "Member access"}</NavLink>
@@ -93,8 +95,10 @@ function Home({ onBook }) {
       </div>
     </section>
 
+    <SessionPricing onBook={onBook}/>
+
     <section className="membership-teaser section">
-      <div className="container teaser-layout"><div className="teaser-left"><SectionLabel>02 / PIXEL CLUB</SectionLabel><h2>YOUR GAME.<br/><span>YOUR PERKS.</span></h2><p>For the regulars, the challengers and the “just one more match” crowd. Make the Paradise your home base.</p><Link className="btn btn-dark" to="/membership">DISCOVER PIXEL CLUB <ArrowUpRight size={19}/></Link></div><div className="teaser-right"><div className="member-card-graphic"><div className="member-card-top"><span>PIXEL<span>PARADISE</span></span><span>✳</span></div><div className="member-card-center"><span className="member-card-mark">P<span>×</span>P</span><small>THE PLAYER'S CLUB</small></div><div className="member-card-bottom"><span>ACCESS YOUR NEXT LEVEL</span><span>EST. FOR PLAYERS</span></div></div><div className="teaser-deco deco-one">✳</div><div className="teaser-deco deco-two">+</div></div></div>
+      <div className="container teaser-layout"><div className="teaser-left"><SectionLabel>02 / PIXEL CLUB</SectionLabel><h2>YOUR GAME.<br/><span>YOUR PERKS.</span></h2><p>For the regulars, the challengers and the “just one more match” crowd. Make the Paradise your home base.</p><Link className="btn btn-dark" to="/membership">DISCOVER PIXEL CLUB <ArrowUpRight size={19}/></Link></div><div className="teaser-right"><div className="member-card-graphic"><div className="member-card-top"><span>PIXEL<span>PARADISE</span></span><span>✳</span></div><div className="member-card-center"><img className="member-card-logo" src="/pixel-paradise-logo.svg" width="110" height="110" alt=""/><small>THE PLAYER'S CLUB</small></div><div className="member-card-bottom"><span>ACCESS YOUR NEXT LEVEL</span><span>EST. FOR PLAYERS</span></div></div><div className="teaser-deco deco-one">✳</div><div className="teaser-deco deco-two">+</div></div></div>
     </section>
 
     <section className="section how-section"><div className="container"><div className="section-head compact"><div><SectionLabel>03 / YOUR NEXT SESSION</SectionLabel><h2>THREE STEPS.<br/><span>ENDLESS ROUNDS.</span></h2></div></div><div className="steps-grid">{[
@@ -143,11 +147,11 @@ function MyPass({ member, onClear, onBook, onContact }) {
   const navigate=useNavigate();
   const plan=plans.find(x=>x.id===member?.plan);
   const [copied,setCopied] = useState(false);
-  return <main className="pass-page"><div className="container pass-container"><SectionLabel>PIXEL CLUB / MEMBER ACCESS</SectionLabel><h1>{member ? "HEY, PLAYER." : "YOUR PASS AWAITS."}<br/><em>{member ? "GOOD TO SEE YOU." : "LET'S FIX THAT."}</em></h1>{!member ? <div className="empty-pass"><span className="empty-pass-icon"><Ticket size={54}/></span><h2>NO REQUEST ON THIS DEVICE YET</h2><p>Your player pass appears here after you fill out a membership enquiry. Requests are saved only in the browser where they were created.</p><Link to="/membership" className="btn btn-acid">EXPLORE MEMBERSHIPS <ArrowUpRight size={18}/></Link></div> : <div className="pass-layout"><div className="pass-card"><div className="pass-card-top"><span>PIXEL<span>PARADISE</span></span><span>CLUB / 001</span></div><div className="pass-card-badge">P<span>×</span>P</div><div className="pass-card-bottom"><div><small>PLAYER</small><strong>{member.name}</strong></div><div><small>INTEREST</small><strong>{plan?.title || "Pixel Club"}</strong></div><div className="pass-id">{member.id}</div></div></div><div className="pass-details"><div className="pending-status"><span className="pending-dot"/> REQUEST SAVED • NOT AN ACTIVE MEMBERSHIP</div><h2>ONE STEP CLOSER<br/>TO PARADISE.</h2><p>Your enquiry was prepared on {new Date(member.createdAt).toLocaleDateString("en-IN",{day:"numeric",month:"long",year:"numeric"})}. Please copy and send the Instagram message, then wait for the café to confirm plan details and activation.</p><div className="detail-row"><span>PLAYER NAME</span><strong>{member.name}</strong></div><div className="detail-row"><span>PLAN INTEREST</span><strong>{plan?.title}</strong></div><div className="detail-row"><span>REQUEST ID</span><strong>{member.id}</strong></div><div className="pass-actions"><button className="btn btn-acid" onClick={() => onContact("Hi Pixel Paradise! Can you check my membership enquiry? Request ID: "+member.id+". Name: "+member.name+". Plan: "+(plan?.title||member.plan))}>CONTACT THE CAFÉ <ArrowUpRight size={18}/></button><button className="btn btn-outline" onClick={async()=>{try {await navigator.clipboard.writeText(member.id); setCopied(true);} catch {setCopied(false);}}}>{copied?<Check size={17}/>:<Copy size={17}/>} {copied?"COPIED":"COPY ID"}</button></div><div className="pass-footer-actions"><button onClick={()=>navigate("/membership")}>Browse other plans <ArrowRight size={15}/></button><button onClick={() => {if(window.confirm("Remove this saved membership enquiry from this browser?"))onClear();}}>Delete local request</button></div></div></div>}<div className="pass-help"><span>JUST HERE TO PLAY?</span><button className="text-link" onClick={onBook}>BOOK A GAMING SESSION <ArrowUpRight size={18}/></button></div></div></main>;
+  return <main className="pass-page"><div className="container pass-container"><SectionLabel>PIXEL CLUB / MEMBER ACCESS</SectionLabel><h1>{member ? "HEY, PLAYER." : "YOUR PASS AWAITS."}<br/><em>{member ? "GOOD TO SEE YOU." : "LET'S FIX THAT."}</em></h1>{!member ? <div className="empty-pass"><span className="empty-pass-icon"><Ticket size={54}/></span><h2>NO REQUEST ON THIS DEVICE YET</h2><p>Your player pass appears here after you fill out a membership enquiry. Requests are saved only in the browser where they were created.</p><Link to="/membership" className="btn btn-acid">EXPLORE MEMBERSHIPS <ArrowUpRight size={18}/></Link></div> : <div className="pass-layout"><div className="pass-card"><div className="pass-card-top"><span>PIXEL<span>PARADISE</span></span><span>CLUB / 001</span></div><div className="pass-card-badge"><img src="/pixel-paradise-logo.svg" width="112" height="112" alt="Pixel Paradise official mark"/></div><div className="pass-card-bottom"><div><small>PLAYER</small><strong>{member.name}</strong></div><div><small>INTEREST</small><strong>{plan?.title || "Pixel Club"}</strong></div><div className="pass-id">{member.id}</div></div></div><div className="pass-details"><div className="pending-status"><span className="pending-dot"/> REQUEST SAVED • NOT AN ACTIVE MEMBERSHIP</div><h2>ONE STEP CLOSER<br/>TO PARADISE.</h2><p>Your enquiry was prepared on {new Date(member.createdAt).toLocaleDateString("en-IN",{day:"numeric",month:"long",year:"numeric"})}. Please copy and send the Instagram message, then wait for the café to confirm plan details and activation.</p><div className="detail-row"><span>PLAYER NAME</span><strong>{member.name}</strong></div><div className="detail-row"><span>PLAN INTEREST</span><strong>{plan?.title}</strong></div><div className="detail-row"><span>REQUEST ID</span><strong>{member.id}</strong></div><div className="pass-actions"><button className="btn btn-acid" onClick={() => onContact("Hi Pixel Paradise! Can you check my membership enquiry? Request ID: "+member.id+". Name: "+member.name+". Plan: "+(plan?.title||member.plan))}>CONTACT THE CAFÉ <ArrowUpRight size={18}/></button><button className="btn btn-outline" onClick={async()=>{try {await navigator.clipboard.writeText(member.id); setCopied(true);} catch {setCopied(false);}}}>{copied?<Check size={17}/>:<Copy size={17}/>} {copied?"COPIED":"COPY ID"}</button></div><div className="pass-footer-actions"><button onClick={()=>navigate("/membership")}>Browse other plans <ArrowRight size={15}/></button><button onClick={() => {if(window.confirm("Remove this saved membership enquiry from this browser?"))onClear();}}>Delete local request</button></div></div></div>}<div className="pass-help"><span>JUST HERE TO PLAY?</span><button className="text-link" onClick={onBook}>BOOK A GAMING SESSION <ArrowUpRight size={18}/></button></div></div></main>;
 }
 
-function BookingModal({ onClose, onContact }) {
-  const [form,setForm]=useState({name:"",phone:"",console:"PS5",date:"",time:"",players:"2"});
+function BookingModal({ onClose, onContact, initialConsole = "PS5" }) {
+  const [form,setForm]=useState({name:"",phone:"",console:initialConsole,date:"",time:"",players:"2"});
   useEffect(()=>{const before=document.body.style.overflow;document.body.style.overflow="hidden";function esc(e){if(e.key==="Escape")onClose();}window.addEventListener("keydown",esc);return()=>{document.body.style.overflow=before;window.removeEventListener("keydown",esc);};},[onClose]);
   const today = new Date();
   const localToday = new Date(today.getTime()-today.getTimezoneOffset()*60000).toISOString().slice(0,10);
@@ -167,6 +171,8 @@ function SiteFooter({onBook}) {return <footer className="site-footer"><div class
 export default function App() {
   const [member,setMember]=useState(storedRequest);
   const [booking,setBooking]=useState(false);
+  const [preferredConsole,setPreferredConsole]=useState("PS5");
+  const openBooking=(consoleType="PS5")=>{setPreferredConsole(consoleType);setBooking(true);};
   const [contactDraft,setContactDraft]=useState(null);
   const appRef=useRef(null);
   const location=useLocation();
@@ -182,5 +188,5 @@ export default function App() {
   }, []);
   function save(v){try {localStorage.setItem(STORE_KEY,JSON.stringify(v));} catch { /* Storage can be disabled. */ } setMember(v);}
   function clear(){try {localStorage.removeItem(STORE_KEY);} catch { /* Storage can be disabled. */ } setMember(null);}
-  return <div className="app-shell" ref={appRef}><SiteHeader onBook={()=>setBooking(true)} member={member}/><Routes><Route path="/" element={<Home onBook={()=>setBooking(true)}/>}/><Route path="/membership" element={<Membership onJoin={id=>navigate("/join?plan="+id)}/>}/><Route path="/join" element={<Join onSave={save} onContact={setContactDraft}/>}/><Route path="/my-pass" element={<MyPass member={member} onClear={clear} onBook={()=>setBooking(true)} onContact={setContactDraft}/>}/><Route path="/privacy" element={<Privacy/>}/><Route path="*" element={<Home onBook={()=>setBooking(true)}/>}/></Routes><SiteFooter onBook={()=>setBooking(true)}/>{booking&&<BookingModal onClose={()=>setBooking(false)} onContact={setContactDraft}/>} {contactDraft&&<ContactHandoff message={contactDraft} onClose={()=>setContactDraft(null)}/>}</div>;
+  return <div className="app-shell" ref={appRef}><SiteHeader onBook={openBooking} member={member}/><Routes><Route path="/" element={<Home onBook={openBooking}/>}/><Route path="/membership" element={<Membership onJoin={id=>navigate("/join?plan="+id)}/>}/><Route path="/join" element={<Join onSave={save} onContact={setContactDraft}/>}/><Route path="/my-pass" element={<MyPass member={member} onClear={clear} onBook={openBooking} onContact={setContactDraft}/>}/><Route path="/privacy" element={<Privacy/>}/><Route path="*" element={<Home onBook={openBooking}/>}/></Routes><SiteFooter onBook={openBooking}/>{booking&&<BookingModal onClose={()=>setBooking(false)} onContact={setContactDraft} initialConsole={preferredConsole}/>} {contactDraft&&<ContactHandoff message={contactDraft} onClose={()=>setContactDraft(null)}/>}</div>;
 }
