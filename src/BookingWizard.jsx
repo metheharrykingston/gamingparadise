@@ -7,6 +7,7 @@ import {
   Users, X, Zap
 } from "lucide-react";
 import { sessions, whatsappLink } from "./config";
+import "./booking-wizard.css";
 
 const steps = [
   { name: "YOUR ARENA", short: "SETUP", subtitle: "Choose your weapon." },
