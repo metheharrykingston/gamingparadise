@@ -1,7 +1,7 @@
 // Confirm all operating details with café management before going live.
 export const cafe = {
   name: "Pixel Paradise Gaming Cafe",
-  address: "Sector 56, Noida, Uttar Pradesh, India",
+  address: "Shop No. E4/7, 1st Floor, Sai Market, near Mother Dairy, Block E, Sector 56, Noida, Uttar Pradesh",
   hours: "10:00 AM – 10:00 PM",
   instagram: "https://www.instagram.com/pixelparadise.cafe/",
   mapsUrl: "https://maps.app.goo.gl/6YoTHVMyBQz8kLqk7",
@@ -13,3 +13,9 @@ export const plans = [
   {id:"squad",label:"BETTER TOGETHER",title:"SQUAD PASS",description:"When your favourite game is better with your people.",price:"CUSTOM ENQUIRY",priceNote:"Group sessions and membership",features:["Enquire about group bookings","Ask about recurring squad sessions","Plan a match night with the café"],action:"ENQUIRE AS A SQUAD",featured:false}
 ];
 export function contactLink() { return cafe.instagram; }
+
+export const sessions = [
+  { id: "ps5", category: "PLAYSTATION 5", title: "PS5 GAMING", subtitle: "Next-gen console sessions", console: "PS5", halfHour: 60, hour: 100 },
+  { id: "ps4", category: "PLAYSTATION 4", title: "PS4 GAMING", subtitle: "Your favourites, your squad", console: "PS4", halfHour: 40, hour: 80 },
+  { id: "g29", category: "RACING SIMULATOR", title: "G29 RACING", subtitle: "Get behind the wheel", console: "G29 Racing Wheel", halfHour: 100, hour: 150 }
+];
