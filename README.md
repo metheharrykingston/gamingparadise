@@ -69,3 +69,14 @@ The site now uses GSAP 3.15 / @gsap/react with accessible reduced-motion fallbac
 **Contact workflow:** The previous Bareilly number must not be used. Until a verified Noida business WhatsApp number is supplied, enquiry messages are prepared to copy into Instagram DMs. Users must manually send them, and no booking or membership is confirmed by submitting a draft.
 
 Blocking right-click and image dragging is only a casual deterrent. It cannot hide public client-side HTML, CSS, JavaScript or media. Do not put secrets or authorization logic into the frontend.
+
+## Official logo, colour palette and gaming session rates
+
+- Brand logo recreated as a scalable SVG from the supplied Pixel Paradise image: `public/pixel-paradise-logo.svg`.
+- Palette: black `#050608`, purple `#6e3f9b`, hot pink `#e91e93`, white `#fff`.
+- Venue address: Shop No. E4/7, 1st Floor, Sai Market, near Mother Dairy, Block E, Sector 56, Noida, Uttar Pradesh.
+- PS5: 30 minutes ₹60, 1 hour ₹100.
+- PS4: 30 minutes ₹40, 1 hour ₹80.
+- G29 racing wheel: 30 minutes ₹100, 1 hour ₹150.
+- The landing-page Pricing section is powered by `src/config.js` and opens an enquiry form preselected for the requested setup.
+- **Membership package prices are not yet set.** The session prices are not presented as membership subscription prices.

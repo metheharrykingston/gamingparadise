@@ -172,7 +172,7 @@ export default function App() {
   const [member,setMember]=useState(storedRequest);
   const [booking,setBooking]=useState(false);
   const [preferredConsole,setPreferredConsole]=useState("PS5");
-  const openBooking=(consoleType="PS5")=>{setPreferredConsole(consoleType);setBooking(true);};
+  const openBooking=(consoleType="PS5")=>{setPreferredConsole(typeof consoleType === "string" ? consoleType : "PS5");setBooking(true);};
   const [contactDraft,setContactDraft]=useState(null);
   const appRef=useRef(null);
   const location=useLocation();
