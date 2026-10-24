@@ -59,3 +59,13 @@ Hero, console and gamer images are illustrative Unsplash photography, **not pict
 ## Business reference
 
 Pixel Paradise, near Bishop Conrad School, Green Park Colony, Bareilly, UP 243001. Confirm operating details with management before launch.
+
+## 2026 Noida update
+
+Pixel Paradise Gaming Cafe is in **Sector 56, Noida**, open **10:00 AM to 10:00 PM**, and offers PS5, PS4 and G29 wheel experiences. Official maps: https://maps.app.goo.gl/6YoTHVMyBQz8kLqk7
+
+The site now uses GSAP 3.15 / @gsap/react with accessible reduced-motion fallbacks, Tailwind CSS v4 utilities alongside existing branded styles, and Vercel security headers.
+
+**Contact workflow:** The previous Bareilly number must not be used. Until a verified Noida business WhatsApp number is supplied, enquiry messages are prepared to copy into Instagram DMs. Users must manually send them, and no booking or membership is confirmed by submitting a draft.
+
+Blocking right-click and image dragging is only a casual deterrent. It cannot hide public client-side HTML, CSS, JavaScript or media. Do not put secrets or authorization logic into the frontend.
