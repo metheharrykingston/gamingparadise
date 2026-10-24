@@ -80,3 +80,12 @@ Blocking right-click and image dragging is only a casual deterrent. It cannot hi
 - G29 racing wheel: 30 minutes ₹100, 1 hour ₹150.
 - The landing-page Pricing section is powered by `src/config.js` and opens an enquiry form preselected for the requested setup.
 - **Membership package prices are not yet set.** The session prices are not presented as membership subscription prices.
+
+
+## Immersive multi-step booking and official WhatsApp
+
+The gaming booking flow now runs in four stages: Choose Arena (PS5 / PS4 / G29), Session (30 or 60 minutes plus date/time), Player Details, and Ready to Play. GSAP animates stage transitions with reduced-motion support. The chosen setup from pricing cards is preselected.
+
+Official café WhatsApp: +91 87459 98333. After reviewing a request, the player taps OPEN WHATSAPP. The browser navigates to wa.me/918745998333 with an encoded prefilled message. The user MUST tap Send in WhatsApp; the site does not auto-send or claim booking confirmation.
+
+Displayed prices are per selected setup/session, not a final quotation for all players. Time options fall between 10 AM and 10 PM India time, in half-hour increments. They are enquiry times only, not a real-time reservation inventory. No backend stores gaming enquiries.
