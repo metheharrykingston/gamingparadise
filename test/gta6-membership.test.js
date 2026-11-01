@@ -59,3 +59,24 @@ test("GTA VI WhatsApp handoff is an unpriced slot enquiry, not a game preorder",
   assert.doesNotMatch(message,/₹|guaranteed early access/i);
   assert.equal(new URL(whatsappLink(message)).searchParams.get("text"),message);
 });
+
+test("GTA VI slots obey closing time on launch day and reject requests after close", () => {
+  const afterClose = new Date("2026-11-19T16:30:00Z"); // 10 PM IST
+  assert.deepEqual(gta6Slots(60, "2026-11-19", afterClose), []);
+  assert.deepEqual(gta6Slots(120, "2026-11-19", afterClose), []);
+  assert.equal(gta6Slots(60,"2026-11-20",afterClose)[0], "10:00");
+  const values = {name:"Guest",phone:"9876543210",date:"2026-11-19",time:"21:00",duration:60,players:1};
+  assert.match(gta6BookingError(values,afterClose), /slot/);
+  assert.equal(gta6BookingError({...values,date:"2026-11-20",time:"21:00"},afterClose), "");
+  assert.match(gta6BookingError({...values,date:"2026-11-20",time:"21:30"},afterClose), /slot/);
+});
+
+test("GTA VI snack enquiries are optional, separate from game pricing", () => {
+  const args={name:"Guest",phone:"9876543210",date:"2026-11-19",time:"10:00",duration:60,players:1};
+  assert.doesNotMatch(gta6WhatsappMessage(args),/snack/i);
+  const snack = gta6WhatsappMessage({...args, snack:"Cold drink and chips",note:"Need PS5"});
+  assert.match(snack,/Cold drink and chips/);
+  assert.match(snack,/extra charge/);
+  assert.match(snack,/Need PS5/);
+  assert.doesNotMatch(snack,/₹/);
+});
