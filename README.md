@@ -110,3 +110,9 @@ The booking wizard distinguishes solo titles and local multiplayer games. Tekken
 **Pricing:** PS5 ₹60/30 minutes or ₹100/hour. G29 ₹100/30 minutes or ₹150/hour (save ₹50 against two 30-minute G29 slots). GTA VI prebooking pricing remains unpublished and unchanged by these updates.
 
 The café provided the title names. Listings are subject to individual title availability and compatibility at the venue. All WhatsApp booking forms remain enquiries, not confirmed reservations.
+
+## Café hours and optional snacks (November 2026)
+
+Regular PS5/G29 and GTA VI launch-period slot requests follow a shared **10:00 AM to 10:00 PM Asia/Kolkata (IST), every day** rule. A requested session must **finish by 10:00 PM**; no 10 PM or later start times are offered. Starts are spaced at 30-minute increments. Last regular start: **9:30 PM for 30 minutes** or **9:00 PM for 60 minutes**. GTA VI also offers a 120-minute request, last start **8:00 PM**. Past/current times are excluded, and today's requests disappear after closing, while future dates remain selectable. These are requests, not live inventory or confirmed bookings.
+
+Both booking forms include a separate **Snacks / drinks (optional)** text field under special requests. If supplied, it is included in the WhatsApp enquiry and on the regular booking review; if empty, it is omitted. Snacks are not included in the displayed gaming rate and require separate café confirmation of availability and additional pricing.
