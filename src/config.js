@@ -88,3 +88,17 @@ export function allowedPlayerCounts(session, game) {
   const maximum = Math.min(session.maxPlayers, game.maxPlayers);
   return Array.from({length: Math.max(0, maximum - minimum + 1)}, (_, index) => minimum + index);
 }
+
+/** Restrict title choices to the requested LOCAL play style, not online player counts. */
+export function gamesForParty(session, partyType) {
+  if (session.id === "g29") return partyType === "solo" ? session.games : [];
+  if (partyType === "friends") return session.games.filter(game => game.maxPlayers >= 2);
+  if (partyType === "solo") return session.games.filter(game => game.minPlayers <= 1);
+  return [];
+}
+
+export function playerCountsForParty(session, game, partyType) {
+  if (!game) return [];
+  const supported = allowedPlayerCounts(session, game);
+  return supported.filter(n => partyType === "friends" ? n >= 2 : n === 1);
+}
