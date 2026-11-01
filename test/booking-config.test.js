@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { allowedPlayerCounts, cafe, gameForSession, hourlySaving, sessions, whatsappLink } from "../src/config.js";
+import { allowedPlayerCounts, gamesForParty, playerCountsForParty, cafe, gameForSession, hourlySaving, sessions, whatsappLink } from "../src/config.js";
 
 test("official café number is used for prefilled WhatsApp links", () => {
   assert.equal(cafe.whatsappNumber, "918745998333");
@@ -63,4 +63,26 @@ test("G29 one-hour price saves ₹50 compared with two half-hour sessions", () =
   assert.equal(g29.halfHour*2,200);
   assert.equal(hourlySaving(g29),50);
   assert.equal(hourlySaving(sessions.find(s=>s.id==="ps5")),20);
+});
+
+test("booking game filter separates solo and same-screen multiplayer correctly", () => {
+  const ps5 = sessions.find(s => s.id === "ps5");
+  const wheel = sessions.find(s => s.id === "g29");
+  const solo = gamesForParty(ps5, "solo").map(g => g.id);
+  const squad = gamesForParty(ps5, "friends").map(g => g.id);
+  assert.ok(solo.includes("gta5"));
+  assert.ok(solo.includes("tekken8")); // fighting games can be played solo too
+  assert.ok(!solo.includes("ittakestwo")); // co-op needs two players
+  assert.ok(squad.includes("tekken8"));
+  assert.ok(squad.includes("fc26"));
+  assert.ok(squad.includes("ittakestwo"));
+  assert.ok(!squad.includes("gta5")); // GTA 5 is not local split-screen
+  assert.deepEqual(gamesForParty(wheel, "friends"), []);
+  assert.equal(gamesForParty(wheel, "solo").length, 3);
+  assert.deepEqual(playerCountsForParty(ps5, gameForSession(ps5, "fc26"), "friends"), [2,3,4]);
+  assert.deepEqual(playerCountsForParty(ps5, gameForSession(ps5, "tekken8"), "solo"), [1]);
+  assert.deepEqual(playerCountsForParty(ps5, gameForSession(ps5, "tekken8"), "friends"), [2]);
+  assert.deepEqual(playerCountsForParty(ps5, gameForSession(ps5, "ittakestwo"), "friends"), [2]);
+  assert.deepEqual(playerCountsForParty(wheel, wheel.games[0], "solo"), [1]);
+  assert.deepEqual(playerCountsForParty(wheel, null, "solo"), []);
 });
