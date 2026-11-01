@@ -6,14 +6,15 @@ import {
   Clock3, Copy, Gamepad2, Gauge, MessageCircle, ShieldCheck, Timer, Trophy,
   Users, X, Zap
 } from "lucide-react";
-import { allowedPlayerCounts, gameForSession, hourlySaving, sessions, whatsappLink } from "./config";
+import { gamesForParty, playerCountsForParty, hourlySaving, sessions, whatsappLink } from "./config";
 import "./booking-wizard.css";
 
 const steps = [
-  { name: "YOUR ARENA", short: "SETUP", subtitle: "Choose your weapon." },
-  { name: "YOUR SESSION", short: "SESSION", subtitle: "Lock in your play time." },
-  { name: "PLAYER DETAILS", short: "PLAYER", subtitle: "Tell us who's playing." },
-  { name: "READY TO PLAY", short: "READY", subtitle: "Confirm and send." }
+  { name: "CHOOSE SETUP", short: "SETUP", subtitle: "Choose PS5 or the six-gear wheel." },
+  { name: "CHOOSE GAME", short: "GAME", subtitle: "Choose solo or multiplayer, then pick your game." },
+  { name: "SELECT SLOT", short: "TIME", subtitle: "Choose a duration, date and preferred start time." },
+  { name: "PLAYER DETAILS", short: "PLAYER", subtitle: "Confirm the player count and contact details." },
+  { name: "REVIEW REQUEST", short: "REVIEW", subtitle: "Review your choices before contacting the café." }
 ];
 
 function indiaNow() {
@@ -61,15 +62,17 @@ function GearIcon({ id, size = 38 }) {
   return id === "g29" ? <Gauge size={size} strokeWidth={1.4}/> : <Gamepad2 size={size} strokeWidth={1.4}/>;
 }
 
-export default function BookingWizard({ initialConsole = "PS5", onClose }) {
+export default function BookingWizard({ initialConsole = "PS5", initialGameId = "", onClose }) {
   const startingSetup = sessions.find(s => s.console === initialConsole) || sessions[0];
-  const [step, setStep] = useState(0);
+  const preselectedGame = startingSetup.games.find(game => game.id === initialGameId);
+  const [step, setStep] = useState(preselectedGame ? 1 : 0);
   const [setupId, setSetupId] = useState(startingSetup.id);
   const [duration, setDuration] = useState(60);
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
-  const [players, setPlayers] = useState("1");
-  const [gameId, setGameId] = useState(startingSetup.games[0].id);
+  const [partyType, setPartyType] = useState(preselectedGame?.maxPlayers > 1 ? "friends" : "solo");
+  const [players, setPlayers] = useState(preselectedGame?.maxPlayers > 1 ? "2" : "1");
+  const [gameId, setGameId] = useState(preselectedGame?.id || "");
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [note, setNote] = useState("");
@@ -77,12 +80,14 @@ export default function BookingWizard({ initialConsole = "PS5", onClose }) {
   const [copied, setCopied] = useState(false);
   const rootRef = useRef(null);
   const panelRef = useRef(null);
+  const stepAreaRef = useRef(null);
   const headingRef = useRef(null);
-  const lastStepRef = useRef(0);
+  const lastStepRef = useRef(-1);
   const setup = sessions.find(s => s.id === setupId) || sessions[0];
   const rate = duration === 30 ? setup.halfHour : setup.hour;
-  const game = gameForSession(setup, gameId);
-  const playerOptions = allowedPlayerCounts(setup, game);
+  const visibleGames = gamesForParty(setup, partyType);
+  const game = setup.games.find(item => item.id === gameId) || null;
+  const playerOptions = playerCountsForParty(setup, game, partyType);
   const now = indiaNow();
   const slots = useMemo(() => {
     const result = [];
@@ -92,9 +97,22 @@ export default function BookingWizard({ initialConsole = "PS5", onClose }) {
     }
     return result;
   }, [date, duration, now.date, now.hour, now.minute]);
-  const message = buildMessage({ setup, game, duration, date, time, name, phone, players, note, rate });
-  function selectSetup(next) { setSetupId(next.id); setGameId(next.games[0].id); setPlayers(String(next.games[0].minPlayers)); }
-  function selectGame(next) { const target = gameForSession(setup, next); setGameId(target.id); setPlayers(String(target.minPlayers)); }
+  const message = game ? buildMessage({ setup, game, duration, date, time, name, phone, players, note, rate }) : "";
+  function selectSetup(next) {
+    if (next.id === setupId) return;
+    setSetupId(next.id); setPartyType("solo"); setGameId(""); setPlayers("1"); setError("");
+  }
+  function selectParty(next) {
+    if (setup.id === "g29" && next === "friends") return;
+    if (next === partyType) return;
+    setPartyType(next); setGameId(""); setPlayers(next === "friends" ? "2" : "1"); setError("");
+  }
+  function selectGame(nextId) {
+    const nextGame = visibleGames.find(item => item.id === nextId);
+    if (!nextGame) return;
+    const allowed = playerCountsForParty(setup, nextGame, partyType);
+    setGameId(nextGame.id); setPlayers(String(allowed[0] || 1)); setError("");
+  }
 
   useEffect(() => {
     const oldOverflow = document.body.style.overflow;
@@ -129,7 +147,7 @@ export default function BookingWizard({ initialConsole = "PS5", onClose }) {
     if (lastStepRef.current !== step) {
       lastStepRef.current = step;
       headingRef.current?.focus({preventScroll:true});
-      if (panelRef.current) panelRef.current.scrollTop = 0;
+      if (stepAreaRef.current) stepAreaRef.current.scrollTop = 0;
     }
   }, [step]);
 
@@ -142,19 +160,22 @@ export default function BookingWizard({ initialConsole = "PS5", onClose }) {
 
   function advance() {
     setError("");
-    if (step === 0 && (!setupId || !game)) { setError("Select a setup and a game."); return; }
-    if (step === 1 && (!date || !time || !slots.includes(time) || date < indiaNow().date)) {
-      setError("Select a future date and an available starting time."); return;
+    if (step === 0 && !setupId) { setError("Choose a setup first."); return; }
+    if (step === 1 && (!game || !visibleGames.some(g => g.id === game.id) || !playerOptions.includes(Number(players)))) {
+      setError("Choose a game and valid player count before continuing."); return;
     }
-    if (step === 2) {
-      if (!playerOptions.includes(Number(players))) { setError("Choose a supported player count for your game and setup."); return; }
-      const digits = phone.replace(/\D/g,"");
+    if (step === 2 && (!date || !time || !slots.includes(time) || date < indiaNow().date)) {
+      setError("Choose a future date and an available starting time."); return;
+    }
+    if (step === 3) {
+      if (!playerOptions.includes(Number(players))) { setError("Choose a supported player count."); return; }
+      const digits = phone.replace(/\\D/g, "");
       if (name.trim().length < 2) { setError("Enter your name."); return; }
       if (!(digits.length === 10 || digits.length === 12 && digits.startsWith("91"))) {
         setError("Enter a valid 10-digit Indian mobile number."); return;
       }
     }
-    setStep(v => Math.min(v+1,3));
+    setStep(v => Math.min(v + 1, 4));
   }
   function back() { setError(""); setStep(v => Math.max(v-1,0)); }
   async function copy() {
@@ -172,19 +193,19 @@ export default function BookingWizard({ initialConsole = "PS5", onClose }) {
           <div className="wizard-crosshair wizard-crosshair-a">+</div><div className="wizard-crosshair wizard-crosshair-b">+</div>
           <span className="wizard-screen-tag">PXP / SELECTED GEAR</span>
         </div>
-        <div className="wizard-showcase-bottom"><span>LIVE LOADOUT <span className="wizard-live-dot"/></span><h3>{setup.title}</h3>
+        <div className="wizard-showcase-bottom"><span>LIVE LOADOUT <span className="wizard-live-dot"/></span><h3>{game?.name || setup.title}</h3>
           <div className="wizard-hud"><span>SESSION</span><strong>{duration} MIN</strong><span>RATE</span><strong>₹{rate}</strong></div>
           <div className="wizard-showcase-foot"><span>ULTIMATE GAMING HEAVEN</span><span>NOIDA / SECTOR 56</span></div>
         </div>
       </aside>
       <div className="wizard-body" ref={panelRef}>
-        <div className="wizard-header"><div><span className="wizard-overline"><span className="wizard-live-dot"/> GAME SESSION BOOKING</span><span className="wizard-counter">LEVEL 0{step + 1} / 04</span></div>
+        <div className="wizard-header"><div><span className="wizard-overline"><span className="wizard-live-dot"/> GAME SESSION BOOKING</span><span className="wizard-counter">LEVEL 0{step + 1} / 05</span></div>
           <button type="button" className="wizard-close" aria-label="Close booking" onClick={onClose}><X size={21}/></button></div>
-        <div className="wizard-progress-labels" aria-label={"Step " + (step+1) + " of 4"}>{steps.map((item,i)=><span key={item.short} className={i <= step?"active":""}>{item.short}</span>)}</div>
-        <div className="wizard-progress-track"><div className="wizard-progress-bar" style={{width:(step+1)*25+"%"}}/></div>
-        <div className="wizard-step-area"><div className="wizard-slide" key={step}>
-          <div className="wizard-kicker"><span>0{step+1} / 04</span> {steps[step].name}</div>
-          <h2 id="wizard-title" tabIndex={-1} ref={headingRef}>{step===0?<>CHOOSE YOUR <em>ARENA.</em></>:step===1?<>LOCK YOUR <em>SESSION.</em></>:step===2?<>WHO'S <em>PLAYING?</em></>:<>READY TO <em>PLAY.</em></>}</h2>
+        <div className="wizard-progress-labels" aria-label={"Step " + (step+1) + " of 5"}>{steps.map((item,i)=><span key={item.short} className={i <= step?"active":""}>{item.short}</span>)}</div>
+        <div className="wizard-progress-track"><div className="wizard-progress-bar" style={{width:(step+1)*20+"%"}}/></div>
+        <div className="wizard-step-area" ref={stepAreaRef}><div className="wizard-slide" key={step}>
+          <div className="wizard-kicker"><span>0{step+1} / 05</span> {steps[step].name}</div>
+          <h2 id="wizard-title" tabIndex={-1} ref={headingRef}>{step===0?<>CHOOSE YOUR <em>ARENA.</em></>:step===1?<>PICK YOUR <em>GAME.</em></>:step===2?<>LOCK YOUR <em>SESSION.</em></>:step===3?<>WHO'S <em>PLAYING?</em></>:<>READY TO <em>PLAY.</em></>}</h2>
           <p id="wizard-desc" className="wizard-description">{steps[step].subtitle}</p>
           {step===0&&<div className="wizard-setup-grid">{sessions.map((item,i)=><button key={item.id} type="button" onClick={()=>selectSetup(item)} aria-pressed={setupId===item.id} className={"wizard-setup-tile "+(setupId===item.id?"selected":"")}>
             <span className="wizard-tile-number">0{i+1} // {item.category}</span><span className="wizard-tile-icon"><GearIcon id={item.id} size={43}/></span>
