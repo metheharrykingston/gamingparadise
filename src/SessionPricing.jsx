@@ -32,7 +32,7 @@ export default function SessionPricing({ onBook }) {
             <small>Compared with two 30-minute sessions (₹{session.halfHour * 2})</small>
           </p>}
           <div className="session-game-list">
-            <div className="session-game-list-heading"><Joystick size={17}/> AVAILABLE GAME LIST <small>{session.games.length} TITLES</small></div>
+            <div className="session-game-list-heading"><Gamepad2 size={17}/> AVAILABLE GAME LIST <small>{session.games.length} TITLES</small></div>
             <div className="session-game-tags">
               {session.games.map(game => <span className="session-game-tag" key={game.id}>
                 {game.name}{game.maxPlayers > 1 && <b>{game.maxPlayers}P</b>}
