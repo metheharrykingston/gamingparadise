@@ -1,0 +1,138 @@
+/* Pixel Paradise // launch campaign + monthly passes */
+.gta6-page,.gta6-spotlight{background:#0b0911;color:#fff;overflow:hidden}
+.gta6-page{min-height:100vh}
+.gta6-overline{display:inline-flex;align-items:center;gap:10px;color:#fdba65;font-size:11px;font-weight:900;letter-spacing:.2em;text-transform:uppercase}
+.gta6-spotlight{position:relative;padding:90px 0;background:radial-gradient(circle at 80% 30%,#a6248455,transparent 48%),#0b0911}
+.gta6-spotlight-layout{display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(26px,5vw,85px);align-items:center}
+.gta6-spotlight-copy{position:relative;z-index:1}
+.gta6-spotlight h2,.gta6-page h1,.gta6-book-intro h2{font-family:"Barlow Condensed",Impact,sans-serif;font-size:clamp(70px,8.5vw,148px);font-weight:900;line-height:.82;letter-spacing:-.025em;margin:25px 0 26px;color:#fff}
+.gta6-spotlight h2 em,.gta6-page h1 em,.gta6-book-intro h2 em{font-style:normal;color:#ffbd61}
+.gta6-spotlight-copy>p:not(.gta6-small){max-width:530px;font-size:17px;line-height:1.7;color:#dacbdc;margin:0 0 26px}
+.gta6-countdown{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;width:min(100%,520px)}
+.gta6-time-tile{padding:15px 8px;text-align:center;border:1px solid #ffc47744;background:linear-gradient(155deg,#532744,#1a101d);box-shadow:inset 0 1px #ffffff16}
+.gta6-time-tile strong{display:block;color:#fff;font:900 clamp(32px,4.8vw,59px)/1 "Barlow Condensed",Impact,sans-serif;font-variant-numeric:tabular-nums}
+.gta6-time-tile span{display:block;margin-top:8px;color:#ffc477;font-size:10px;letter-spacing:.16em;font-weight:900}
+.gta6-countdown-compact{max-width:415px}
+.gta6-countdown-compact .gta6-time-tile strong{font-size:clamp(28px,3.6vw,46px)}
+.gta6-small,.gta6-footnote{display:block;color:#b9a5b9;font-size:11px;line-height:1.65;margin:12px 0 24px}
+.gta6-primary{display:inline-flex;gap:10px}
+.gta6-art-link{display:block;min-width:0;text-decoration:none}
+.gta6-art{position:relative;isolation:isolate;min-width:0;min-height:460px;overflow:hidden;border:1px solid #f6aa8b55;background:radial-gradient(ellipse at 54% 31%,#fa875c 0,#8e397a 26%,#3a1a54 52%,#0c0b17 76%);box-shadow:0 32px 90px #0009}
+.gta6-art::before{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(90deg,transparent 49.85%,#fbd7b018 50%,transparent 50.15%),repeating-linear-gradient(0deg,transparent 0 31px,#fff1 32px);opacity:.3;pointer-events:none}
+.gta6-art::after{content:"";position:absolute;inset:auto -30% -42% -30%;height:77%;transform:perspective(230px) rotateX(64deg);background:repeating-linear-gradient(90deg,transparent 0 68px,#ff9a8266 70px 72px),repeating-linear-gradient(0deg,transparent 0 46px,#ff9a8266 48px 50px);opacity:.65}
+.gta6-art-sun{position:absolute;top:14%;left:50%;width:290px;aspect-ratio:1;transform:translateX(-50%);border-radius:50%;background:linear-gradient(#ffd18e,#f77778);filter:drop-shadow(0 0 45px #ff9a7c);opacity:.85}
+.gta6-roman{position:absolute;z-index:2;top:39%;left:50%;transform:translate(-50%,-50%) skew(-8deg);font:900 clamp(210px,29vw,390px)/.9 Impact,"Barlow Condensed",sans-serif;letter-spacing:-.1em;color:#fff0cf;text-shadow:8px 10px 0 #5e275b,0 0 50px #fbd2c2;white-space:nowrap}
+.gta6-art-coordinate{position:absolute;top:22px;left:24px;z-index:2;font-size:11px;font-weight:900;letter-spacing:.14em;color:#fff}
+.gta6-art-bottom{position:absolute;bottom:22px;left:25px;right:25px;z-index:2;display:flex;align-items:end;justify-content:space-between;gap:18px;color:#fff}
+.gta6-art-bottom span{font:900 26px/.9 "Barlow Condensed",Impact,sans-serif;letter-spacing:.12em}
+.gta6-page-hero{padding:100px 0 85px;background:radial-gradient(circle at 80% 27%,#b53c5955,transparent 46%),linear-gradient(140deg,#150c20,#07080d)}
+.gta6-page-hero-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:35px;align-items:center}
+.gta6-page h1{font-size:clamp(70px,9vw,156px);margin-bottom:18px}
+.gta6-page-copy>p{color:#fff;font-weight:900;letter-spacing:.15em;margin:0 0 30px;font-size:12px}
+.gta6-bullet{color:#ffbd61;margin:0 7px}
+.gta6-page-hero .gta6-art{min-height:590px;transform:rotate(2deg)}
+.gta6-hero-actions{display:flex;align-items:center;flex-wrap:wrap;gap:12px;margin-top:28px}
+.gta6-page-copy .gta6-footnote{max-width:520px;margin-top:20px;color:#bba6bc;font-weight:400;letter-spacing:0}
+.gta6-marquee{overflow:hidden;background:#ffb45f;color:#1e0d29;padding:20px 0;font-size:14px;font-weight:1000;letter-spacing:.15em;text-align:center;white-space:nowrap}
+.gta6-marquee span{margin:0 15px;color:#a33880}
+.gta6-book-section{padding:115px 0;background:radial-gradient(circle at 12% 26%,#60274655,transparent 42%),#110b18}
+.gta6-book-layout{display:grid;grid-template-columns:.85fr 1.15fr;align-items:start;gap:clamp(25px,5vw,90px)}
+.gta6-book-intro{position:sticky;top:115px}
+.gta6-book-intro h2{font-size:clamp(60px,7vw,115px);margin:25px 0}
+.gta6-book-intro>p{font-size:16px;line-height:1.7;color:#d8c7d7;max-width:510px}
+.gta6-book-points{display:grid;gap:22px;margin:34px 0}
+.gta6-book-points>div{display:flex;align-items:flex-start;gap:16px;border-bottom:1px solid #e7b9dc33;padding-bottom:18px}
+.gta6-book-points svg{flex:none;color:#ffb45f}
+.gta6-book-points span{display:grid;gap:7px;color:#bfaebd;font-size:12px;line-height:1.6}
+.gta6-book-points strong{color:white;font-size:12px;letter-spacing:.1em}
+.gta6-independent-note{border-left:3px solid #ffb45f;padding:13px 18px;color:#d3bcd0;background:#ffb45f0e;font-size:12px;line-height:1.7}
+.gta6-book-card{padding:clamp(20px,3.5vw,39px);background:linear-gradient(150deg,#26162f,#17101f 58%,#0e0a15);border:1px solid #a65e815c;box-shadow:0 30px 70px #0007}
+.gta6-book-card-head{display:flex;gap:12px;justify-content:space-between;align-items:center;color:#e9bcce;font-size:10px;font-weight:900;letter-spacing:.13em;flex-wrap:wrap}
+.gta6-book-card-head>span:last-child{color:#ffc377}
+.gta6-pulse{display:inline-block;width:8px;height:8px;margin-right:6px;border-radius:50%;background:#ffc377;box-shadow:0 0 12px #ffc377}
+.gta6-book-card-title{display:flex;justify-content:space-between;align-items:center;margin:26px 0;color:#ffb45f}
+.gta6-book-card-title h3{font:900 clamp(46px,5vw,73px)/.86 "Barlow Condensed",Impact,sans-serif;color:#fff;margin:0}
+.gta6-book-card-title h3 em{font-style:normal;color:#ffb45f}
+.gta6-book-card form{display:grid;gap:21px}
+.gta6-form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+.gta6-form-grid label,.gta6-note-label{display:grid;gap:10px;color:#fff;font-size:11px;font-weight:900;letter-spacing:.09em}
+.gta6-form-grid label span{color:#ffb45f}
+.gta6-form-grid input,.gta6-form-grid select,.gta6-note-label input{width:100%;min-width:0;background:#130d1a;border:1px solid #806078;color:#fff;border-radius:0;padding:15px 13px;font:500 14px "DM Sans",sans-serif;color-scheme:dark}
+.gta6-form-grid input:focus,.gta6-form-grid select:focus,.gta6-note-label input:focus{outline:2px solid #ffb45f;outline-offset:2px}
+.gta6-field-title{display:flex;align-items:center;gap:9px;color:#fff;font-size:11px;font-weight:900;letter-spacing:.1em}
+.gta6-field-title svg{color:#ffb45f}
+.gta6-field-title>span{margin-left:auto;color:#ffc377}
+.gta6-duration-options{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.gta6-duration-options button{padding:17px 14px;display:flex;justify-content:space-between;flex-direction:column;align-items:start;gap:5px;border:1px solid #896a89;background:#1c1326;color:#fff;cursor:pointer}
+.gta6-duration-options button.active,.gta6-slots button.active{background:#ffb45f;color:#1d0924;border-color:#ffb45f}
+.gta6-duration-options button span{font:900 23px "Barlow Condensed",Impact,sans-serif}
+.gta6-duration-options button small{font-size:9px;letter-spacing:.11em;font-weight:800}
+.gta6-slots{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;max-height:253px;overflow:auto;padding:3px}
+.gta6-slots button{min-height:45px;border:1px solid #77566e;background:#180f21;color:#f2dce7;cursor:pointer;font-size:12px;font-weight:900}
+.gta6-slots button:hover,.gta6-duration-options button:hover{border-color:#ffb45f}
+.gta6-slots p{grid-column:1/-1;color:#ffc377;font-size:13px}
+.gta6-selection{display:flex;align-items:center;gap:9px;color:#ffc377;font-size:12px;font-weight:800}
+.gta6-error{margin:0;color:#ffe0dd;font-size:13px;border:1px solid #f56b7f;padding:12px}
+.gta6-submit{display:flex;width:100%;justify-content:center;align-items:center;gap:10px;padding:20px 14px}
+.gta6-form-disclaimer{margin:0;color:#baa7b6;font-size:11px;line-height:1.7}
+.gta6-bottom-strip{background:#e91e93;padding:30px 0}
+.gta6-bottom-strip>.container{display:flex;justify-content:space-between;align-items:center;gap:18px;flex-wrap:wrap}
+.gta6-bottom-strip .container>div,.gta6-bottom-strip a{display:flex;align-items:center;gap:14px;color:#fff;font-weight:900;letter-spacing:.08em;text-decoration:none}
+.gta6-bottom-strip a{font-size:12px}
+.gta6-bottom-strip .container>div{font:900 24px "Barlow Condensed",Impact,sans-serif}
+
+/* Plan cards: poster-accurate three monthly tiers, not GTA VI pricing. */
+.membership-page .plans-intro{max-width:760px}
+.membership-page .plan-card{position:relative;overflow:hidden;border:1px solid #6e4773;display:flex;flex-direction:column;background:linear-gradient(155deg,#20152d,#090910);color:#fff}
+.membership-page .plan-card.featured{background:linear-gradient(155deg,#67225d,#241331 68%,#110b16);border-color:#f35db0;box-shadow:0 17px 42px #e91e9324}
+.membership-page .plan-card:nth-child(1){border-top:4px solid #75c6fc}
+.membership-page .plan-card:nth-child(2){border-top:4px solid #ef8ff3}
+.membership-page .plan-card:nth-child(3){border-top:4px solid #fe7884}
+.membership-page .plan-card .plan-heading h2{color:#fff}
+.membership-page .plan-card .plan-heading p,.membership-page .plan-card .plan-benefits,.membership-page .plan-card .price-label span{color:#dacbd9}
+.membership-page .plan-card .plan-icon{background:#ffffff16;color:#ffbd61}
+.membership-page .plan-card .price-label strong{color:#fff}
+.membership-page .plan-card .plan-benefits{margin-bottom:28px}
+.membership-page .plan-card .plan-benefits svg{color:#ffbd61;flex-shrink:0}
+.membership-page .plan-card .btn{margin-top:auto}
+.membership-page .plan-hour-badge{display:flex;align-items:center;gap:9px;color:#fff;font-size:16px;font-weight:900;margin:14px 0}
+.membership-page .plan-hour-badge svg{color:#ffbd61}
+.membership-page .plan-value{color:#c6b7cc;font-size:12px;text-decoration:line-through}
+.membership-page .plan-savings{color:#ffc277;font-size:11px;font-weight:900;letter-spacing:.05em;margin:7px 0}
+.membership-page .plan-card .popular-tag{background:#ffbc62;color:#250b2b}
+.membership-page .plans-intro p{line-height:1.65}
+.membership-page .plan-icon-basic{color:#73c8ff!important}
+.membership-page .plan-icon-pro{color:#f0a8ff!important}
+.membership-page .plan-icon-elite{color:#ff8d9b!important}
+.membership-page .monthly-notice{display:inline-flex;align-items:center;gap:8px;color:#ffcb89;font-size:12px;font-weight:800;margin-top:8px}
+@media(max-width:1100px){
+ .gta6-spotlight-layout,.gta6-page-hero-grid{grid-template-columns:1fr 1fr}
+ .gta6-art{min-height:400px}
+ .gta6-page-hero .gta6-art{min-height:460px}
+ .gta6-book-layout{grid-template-columns:1fr}
+ .gta6-book-intro{position:static}
+}
+@media(max-width:700px){
+ .gta6-spotlight{padding:70px 0}
+ .gta6-spotlight-layout,.gta6-page-hero-grid{grid-template-columns:1fr}
+ .gta6-spotlight h2,.gta6-page h1{font-size:clamp(69px,16vw,109px)}
+ .gta6-art{min-height:350px}
+ .gta6-art-sun{width:210px}
+ .gta6-roman{font-size:220px}
+ .gta6-page-hero{padding:68px 0}
+ .gta6-page-hero .gta6-art{min-height:390px;transform:none}
+ .gta6-countdown{gap:6px}
+ .gta6-time-tile{padding:12px 4px}
+ .gta6-time-tile strong,.gta6-countdown-compact .gta6-time-tile strong{font-size:35px}
+ .gta6-time-tile span{font-size:9px;letter-spacing:.07em}
+ .gta6-page-copy>p{line-height:1.7}
+ .gta6-book-section{padding:76px 0}
+ .gta6-form-grid{grid-template-columns:1fr}
+ .gta6-slots{grid-template-columns:repeat(3,minmax(0,1fr))}
+ .gta6-book-intro h2{font-size:70px}
+ .gta6-hero-actions .btn{width:100%;justify-content:center}
+ .gta6-marquee{font-size:11px}
+}
+@media(prefers-reduced-motion:reduce){
+ .gta6-art,.gta6-time-tile{transition:none!important}
+}
