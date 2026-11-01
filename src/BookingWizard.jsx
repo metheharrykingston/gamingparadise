@@ -283,6 +283,7 @@ export default function BookingWizard({ initialConsole = "PS5", initialGameId = 
         </div></div>
         {error&&<p className="wizard-error" role="alert">{error}</p>}
         <div className="wizard-action-area">{step>0?<button type="button" className="wizard-back" onClick={back}><ArrowLeft size={17}/> BACK</button>:<span className="wizard-action-hint"><Zap size={16}/> PRESS START</span>}
+          {step===1&&game&&<span className="wizard-game-current" aria-live="polite"><CheckCircle2 size={15}/><span>{game.name} · {players}P</span></span>}
           {step<4?<button type="button" className="wizard-next" onClick={advance}>{step===3?"REVIEW REQUEST":step===0?"CHOOSE A GAME":step===1?"PICK PLAY TIME":"CONTINUE"} <ArrowRight size={19}/></button>:
             <a className="wizard-next wizard-whatsapp-cta" href={whatsappLink(message)} target="_blank" rel="noopener noreferrer"><MessageCircle size={19}/> OPEN WHATSAPP <ArrowUpRight size={19}/></a>}
         </div>
