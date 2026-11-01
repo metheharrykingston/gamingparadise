@@ -67,7 +67,7 @@ export default function GtaSixPage({ onContact }) {
   const maxDate = lastGta6Date(now);
   const left = gta6Countdown(now);
   const [form, setForm] = useState({
-    name: "", phone: "", date: minDate, duration: 60, time: "", players: "1", note: ""
+    name: "", phone: "", date: minDate, duration: 60, time: "", players: "1", note: "", snack: ""
   });
   const [error, setError] = useState("");
   const slots = gta6Slots(form.duration, form.date, now);
@@ -121,7 +121,7 @@ export default function GtaSixPage({ onContact }) {
           <p>Choose a preferred date, duration and start time. We'll prepare a WhatsApp enquiry so the Pixel Paradise team can confirm availability and the final price.</p>
           <div className="gta6-book-points">
             <div><CalendarDays size={21}/><span><strong>19 NOVEMBER ONWARD</strong>30-day rolling request window, opening from the announced launch date</span></div>
-            <div><Clock3 size={21}/><span><strong>10 AM TO 10 PM</strong>30-minute start intervals, with a full 60 or 120-minute session</span></div>
+            <div><Clock3 size={21}/><span><strong>10 AM TO 10 PM</strong>30-minute start intervals; the full 60 or 120-minute session must finish by 10 PM</span></div>
             <div><ShieldCheck size={21}/><span><strong>PRICE UNLOCKS LATER</strong>No GTA VI-specific pricing is published or charged here</span></div>
           </div>
           <div className="gta6-independent-note">Independent gaming café promotion. This is not an official Rockstar Games preorder, a promise of early access, or a confirmed reservation. The café must confirm game availability before your visit.</div>
@@ -141,9 +141,11 @@ export default function GtaSixPage({ onContact }) {
             <div className="gta6-duration-options">{[60,120].map(v=><button type="button" key={v} className={form.duration===v?"active":""} aria-pressed={form.duration===v} onClick={()=>update("duration",v)}><span>{v===60?"60 MIN":"120 MIN"}</span><small>{v===60?"QUICK SESSION":"EXTENDED SESSION"}</small></button>)}</div>
             <div className="gta6-field-title"><Clock3 size={16}/> CHOOSE PREFERRED START TIME <span>IST</span></div>
             <div className="gta6-slots" role="group" aria-label="Preferred start time">
-              {slots.length ? slots.map(slot=><button key={slot} type="button" className={form.time===slot?"active":""} aria-pressed={form.time===slot} onClick={()=>update("time",slot)}>{formatSlotTime(slot)}</button>) : <p>No valid starts remain on this date. Please choose another date.</p>}
+              {slots.length ? slots.map(slot=><button key={slot} type="button" className={form.time===slot?"active":""} aria-pressed={form.time===slot} onClick={()=>update("time",slot)}>{formatSlotTime(slot)}</button>) : <p>No valid starts remain within 10 AM–10 PM on this date. Please choose another day.</p>}
             </div>
             <label className="gta6-note-label">SPECIAL REQUEST (OPTIONAL)<input maxLength={180} value={form.note} onChange={e=>update("note",e.target.value)} placeholder="Preferred setup or notes for the café"/></label>
+            <label className="gta6-note-label">🍿 SNACKS / DRINKS (OPTIONAL)<input maxLength={120} value={form.snack} onChange={e=>update("snack",e.target.value)} placeholder="E.g. chips, cold drink, coffee, or leave blank"/></label>
+            <p className="gta6-form-disclaimer">Optional snacks are not included in your gaming session. The café confirms snack availability and any additional charges.</p>
             {selectedTimeValid && <div className="gta6-selection"><CheckCircle2 size={18}/> PREFERRED SLOT: {form.date} AT {formatSlotTime(form.time)} IST · {form.duration} MIN</div>}
             {error && <p className="gta6-error" role="alert">{error}</p>}
             <button className="btn btn-acid gta6-submit" type="submit"><MessageCircle size={20}/> PREPARE WHATSAPP REQUEST <ChevronRight size={19}/></button>
