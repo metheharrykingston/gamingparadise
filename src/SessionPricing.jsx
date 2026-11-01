@@ -1,4 +1,4 @@
-import { Gamepad2, Gauge, Timer, ArrowUpRight, Users, UserRound, BadgePercent, Gamepad2 } from "lucide-react";
+import { Gamepad2, Gauge, Timer, ArrowUpRight, Users, UserRound, BadgePercent } from "lucide-react";
 import { sessions, hourlySaving } from "./config";
 
 export default function SessionPricing({ onBook }) {
