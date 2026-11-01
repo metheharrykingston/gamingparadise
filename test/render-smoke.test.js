@@ -39,7 +39,16 @@ test("booking wizard renders a dedicated game-selection step, never silently cho
     logLevel: "error"
   });
   try {
-    const { default: BookingWizard } = await vite.ssrLoadModule("/src/BookingWizard.jsx");
+    const { default: BookingWizard, buildMessage } = await vite.ssrLoadModule("/src/BookingWizard.jsx");
+    const { sessions } = await vite.ssrLoadModule("/src/config.js");
+    const ps5 = sessions.find(item => item.id === "ps5");
+    const bookingDetails = {setup:ps5,game:ps5.games[1],duration:60,date:"2026-11-02",time:"10:00",name:"Guest",phone:"9876543210",players:"2",note:"",rate:100};
+    const withoutSnack = buildMessage(bookingDetails);
+    assert.doesNotMatch(withoutSnack,/snacks \/ drinks requested/i);
+    const withSnack = buildMessage({...bookingDetails,note:"Extra controller",snack:"Tea and chips"});
+    assert.match(withSnack,/Tea and chips/);
+    assert.match(withSnack,/extra charge/i);
+    assert.match(withSnack,/Extra controller/);
     const render = (props) => renderToString(React.createElement(BookingWizard, {
       onClose: () => {}, ...props
     }));

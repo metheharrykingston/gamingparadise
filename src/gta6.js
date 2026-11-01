@@ -1,3 +1,5 @@
+import { cafeBookingSlots } from "./bookingSlots.js";
+
 // GTA VI launch date is from Rockstar Games. This is a café slot-enquiry calendar,
 // not a game preorder, live inventory feed, or promise of early access.
 export const GTA6_RELEASE_DATE = "2026-11-19";
@@ -38,15 +40,8 @@ export function gta6Countdown(now = new Date()) {
 
 export function gta6Slots(duration = 60, date = "", now = new Date()) {
   if (![60, 120].includes(Number(duration))) return [];
-  const today = indiaNow(now);
-  const slots = [];
-  for (let minute = 600; minute + Number(duration) <= 1320; minute += 30) {
-    if (date === today.date && minute <= today.minutes) continue;
-    const h = String(Math.floor(minute / 60)).padStart(2, "0");
-    const m = String(minute % 60).padStart(2, "0");
-    slots.push(h + ":" + m);
-  }
-  return slots;
+  if (!date || date < earliestGta6Date(now) || date > lastGta6Date(now)) return [];
+  return cafeBookingSlots(duration, date, now);
 }
 
 export function formatSlotTime(value) {
@@ -66,7 +61,7 @@ export function gta6BookingError(values, now = new Date()) {
   return "";
 }
 
-export function gta6WhatsappMessage({ name, phone, date, time, duration, players, note = "" }) {
+export function gta6WhatsappMessage({ name, phone, date, time, duration, players, note = "", snack = "" }) {
   return [
     "🎮 *PIXEL PARADISE – GTA VI LAUNCH-PERIOD SLOT ENQUIRY*",
     "",
@@ -77,6 +72,7 @@ export function gta6WhatsappMessage({ name, phone, date, time, duration, players
     "Requested play time: " + duration + " minutes",
     "Players: " + players,
     note.trim() ? "Notes: " + note.trim() : "",
+    snack.trim() ? "Optional snacks / drinks requested (extra charge, subject to confirmation): " + snack.trim() : "",
     "",
     "This is a request for a gaming café play slot, NOT a preorder or purchase of GTA VI.",
     "Please confirm GTA VI availability at the café, the station, final pricing and my requested slot.",
