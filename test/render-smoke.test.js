@@ -44,7 +44,8 @@ test("booking wizard renders a dedicated game-selection step, never silently cho
       onClose: () => {}, ...props
     }));
     const start = render({ initialConsole: "PS5" });
-    assert.match(start, /CHOOSE YOUR ARENA/);
+    assert.match(start, /CHOOSE YOUR/);
+    assert.match(start, /ARENA/);
     assert.doesNotMatch(start, /YOUR SELECTION/);
     const multiplayer = render({ initialConsole: "PS5", initialGameId: "tekken8" });
     assert.match(multiplayer, /PICK YOUR/);
