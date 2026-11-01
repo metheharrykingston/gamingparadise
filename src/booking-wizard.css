@@ -143,3 +143,16 @@
 }
 @media(max-width:370px){.wizard-setup-tile{grid-template-columns:43px minmax(0,1fr) auto;gap:2px 7px}.wizard-setup-tile strong{font-size:23px}.wizard-tile-pricing{font-size:8px}.wizard-tile-choice{font-size:7px}.wizard-duration{padding:11px}.wizard-duration>span{font-size:9px}.wizard-duration strong{font-size:34px}.wizard-whatsapp-cta{font-size:9px;gap:7px}}
 @media(prefers-reduced-motion:reduce){.wizard-setup-tile,.wizard-progress-bar,.wizard-next{transition:none!important}}
+
+/* Game-aware wizard for PS5 titles and the single-driver G29 wheel. */
+.wizard-setup-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+.wizard-game-choice{display:grid;gap:11px;margin-top:19px;border:1px solid #84628d;background:#211329;padding:17px}
+.wizard-game-choice>label{display:flex;align-items:center;gap:9px;color:#f2d7ed;font-size:11px;font-weight:900;letter-spacing:.11em}
+.wizard-game-choice>label svg{color:#ffa4d9}
+.wizard-game-choice>select{width:100%;min-width:0;padding:14px 13px;background:#120e18;color:white;border:1px solid #956e9a;border-radius:0;font-size:14px;color-scheme:dark}
+.wizard-game-choice>select:focus-visible{outline:2px solid #ff6bbd;outline-offset:2px}
+.wizard-game-choice>p{margin:0;display:flex;gap:9px;align-items:flex-start;color:#cfb0d2;font-size:11px;line-height:1.6}
+.wizard-game-choice>p svg{flex:none;color:#ffa4d9}
+.wizard-player-guidance{color:#ddbbdf;font-size:10px;line-height:1.6}
+.wizard-duration small{line-height:1.6}
+@media(max-width:700px){.wizard-setup-grid{grid-template-columns:1fr}.wizard-game-choice{margin-top:14px;padding:14px}}
