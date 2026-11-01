@@ -9,10 +9,11 @@ Built with **React 18 + Vite 6 + Tailwind CSS 4 + GSAP 3.15 + React Router + Luc
 | Setup | 30 min | 1 hour |
 | --- | ---: | ---: |
 | PS5 | ₹60 | ₹100 |
-| PS4 | ₹40 | ₹80 |
 | G29 Racing Wheel | ₹100 | ₹150 |
 
-These rates are for the chosen setup and duration, **not** confirmed multi-player totals or membership subscription rates.
+**G29 hourly saving:** two 30-minute sessions cost ₹200, while one continuous hour costs ₹150. The displayed ₹50 saving compares those equivalent durations, not a deduction from the ₹150 rate.
+
+These rates are for the chosen setup and duration, **not** confirmed multi-player totals or membership subscription rates. Wheel racing is single-player per G29; PS5 multiplayer depends on the selected game and available controllers.
 
 **Address:** Shop No. E4/7, 1st Floor, Sai Market, near Mother Dairy, Block E, Sector 56, Noida, UP.
 
@@ -40,9 +41,9 @@ Verify and build:
 
 A neon, mobile-first, GSAP-animated four-step booking experience:
 
-1. **Choose your arena:** PS5, PS4 or G29 (preselected when opened from its pricing card).
+1. **Choose your arena and game:** PS5 or G29, then a compatible title (setup preselected from its pricing card).
 2. **Lock your session:** 30 or 60 minutes, preferred date and time.
-3. **Player details:** Name, phone, player count and optional game preferences.
+3. **Player details:** Name, phone, game-aware player count (G29: exactly one driver; PS5: the local multiplayer range of the selected game), and optional notes.
 4. **Ready to play:** Review the setup and price, then open WhatsApp.
 
 The WhatsApp button navigates to a prefilled **wa.me/918745998333?text=...** chat. **The player must press Send inside WhatsApp.** WhatsApp messages cannot be silently sent using a wa.me link.
@@ -96,3 +97,16 @@ To update the announced release date, adjust `GTA6_RELEASE_DATE` and `GTA6_COUNT
 The flyer mentions advance booking on Basic with an X icon, so the site describes it as not included **subject to café confirmation**. Elite mentions premium setups such as racing and big screen. All inclusion, booking, setup and expiry terms need café confirmation. No online payment, login, live stock or membership activation exists.
 
 Tests for membership prices and GTA VI date, slots and WhatsApp handoff live in `test/gta6-membership.test.js`.
+
+
+## Available game titles / updated session catalogue
+
+**PS5:** GTA 5, Tekken 8, Mortal Kombat, Spider-Man, WWE 2K26, FC 26, Street Fighter, It Takes Two, Resident Evil Village, Watch Dogs, Final Fantasy XVI, Unravel Two, Wo Long, Call of Duty.
+
+The booking wizard distinguishes solo titles and local multiplayer games. Tekken 8, Mortal Kombat and Street Fighter allow two-player requests; FC 26 and WWE 2K26 allow up to four; It Takes Two needs two; Unravel Two allows one or two. Controller count, game editions and actual availability must be confirmed by the café.
+
+**G29 single-driver racing:** Forza Horizon 5, The Crew Motorfest, F1 26. Logitech G29 wheel with a six-gear shifter. No multi-driver selection on the same wheel.
+
+**Pricing:** PS5 ₹60/30 minutes or ₹100/hour. G29 ₹100/30 minutes or ₹150/hour (save ₹50 against two 30-minute G29 slots). GTA VI prebooking pricing remains unpublished and unchanged by these updates.
+
+The café provided the title names. Listings are subject to individual title availability and compatibility at the venue. All WhatsApp booking forms remain enquiries, not confirmed reservations.
