@@ -196,7 +196,12 @@ export default function App() {
   const [member,setMember]=useState(storedRequest);
   const [booking,setBooking]=useState(false);
   const [preferredConsole,setPreferredConsole]=useState("PS5");
-  const openBooking=(consoleType="PS5")=>{setPreferredConsole(typeof consoleType === "string" ? consoleType : "PS5");setBooking(true);};
+  const [preferredGame,setPreferredGame]=useState("");
+  const openBooking=(consoleType="PS5",gameId="")=>{
+    setPreferredConsole(typeof consoleType === "string" ? consoleType : "PS5");
+    setPreferredGame(typeof gameId === "string" ? gameId : "");
+    setBooking(true);
+  };
   const [contactDraft,setContactDraft]=useState(null);
   const appRef=useRef(null);
   const location=useLocation();
@@ -212,5 +217,5 @@ export default function App() {
   }, []);
   function save(v){try {localStorage.setItem(STORE_KEY,JSON.stringify(v));} catch { /* Storage can be disabled. */ } setMember(v);}
   function clear(){try {localStorage.removeItem(STORE_KEY);} catch { /* Storage can be disabled. */ } setMember(null);}
-  return <div className="app-shell" ref={appRef}><SiteHeader onBook={openBooking} member={member}/><Routes><Route path="/" element={<Home onBook={openBooking}/>}/><Route path="/membership" element={<Membership onJoin={id=>navigate("/join?plan="+id)}/>}/><Route path="/gta6" element={<GtaSixPage onContact={setContactDraft}/>}/><Route path="/join" element={<Join onSave={save} onContact={setContactDraft}/>}/><Route path="/my-pass" element={<MyPass member={member} onClear={clear} onBook={openBooking} onContact={setContactDraft}/>}/><Route path="/privacy" element={<Privacy/>}/><Route path="*" element={<Home onBook={openBooking}/>}/></Routes><SiteFooter onBook={openBooking}/>{booking&&<BookingWizard onClose={()=>setBooking(false)} initialConsole={preferredConsole}/>} {contactDraft&&<ContactHandoff message={contactDraft} onClose={()=>setContactDraft(null)}/>}</div>;
+  return <div className="app-shell" ref={appRef}><SiteHeader onBook={openBooking} member={member}/><Routes><Route path="/" element={<Home onBook={openBooking}/>}/><Route path="/membership" element={<Membership onJoin={id=>navigate("/join?plan="+id)}/>}/><Route path="/gta6" element={<GtaSixPage onContact={setContactDraft}/>}/><Route path="/join" element={<Join onSave={save} onContact={setContactDraft}/>}/><Route path="/my-pass" element={<MyPass member={member} onClear={clear} onBook={openBooking} onContact={setContactDraft}/>}/><Route path="/privacy" element={<Privacy/>}/><Route path="*" element={<Home onBook={openBooking}/>}/></Routes><SiteFooter onBook={openBooking}/>{booking&&<BookingWizard onClose={()=>setBooking(false)} initialConsole={preferredConsole} initialGameId={preferredGame}/>} {contactDraft&&<ContactHandoff message={contactDraft} onClose={()=>setContactDraft(null)}/>}</div>;
 }
