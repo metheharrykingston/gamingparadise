@@ -15,7 +15,7 @@ test("poster memberships reflect three separate monthly offers", () => {
   assert.equal(plans.filter(p => p.featured).length,1);
   assert.ok(plans.find(p=>p.id==="elite").features.some(s=>s.includes("racing")));
   assert.ok(plans.find(p=>p.id==="basic").features.some(s=>s.includes("Advance booking")));
-  assert.equal(sessions.length,3, "existing everyday sessions remain separate");
+  assert.equal(sessions.length,2, "PS5 and G29 everyday sessions stay separate from GTA VI launch bookings");
 });
 
 test("GTA VI countdown measures to announced launch calendar date in IST", () => {

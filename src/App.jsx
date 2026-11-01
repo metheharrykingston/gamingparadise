@@ -60,7 +60,8 @@ function Home({ onBook }) {
     ["Can I come without a membership?", "Absolutely. Walk-ins are welcome to enquire about a session. Booking ahead is recommended if you are coming with friends. All sessions depend on station availability."],
     ["How do memberships work?", "Basic (20 hours, ₹1,499), Pro (40 + 3 bonus hours, ₹2,799) and Elite (60 hours, ₹3,999) are monthly pass offers. Request your pass on WhatsApp. The café confirms eligibility, availability and activation. GTA VI launch bookings are separate."],
     ["Can I reserve a GTA VI launch slot?", "You can request a preferred launch-period date and time from 19 November 2026. It is not a confirmed reservation, a game preorder or guaranteed early access. The café confirms game availability and any special rates."],
-    ["Can I choose PS5, PS4 or the G29 wheel?", "Yes. You can request your preferred console or G29 racing wheel when enquiring. Final availability and the game catalogue are confirmed by the café."],
+    ["Can I play with friends on PS5?", "Yes. Tekken 8, Mortal Kombat, Street Fighter, FC 26, WWE 2K26, It Takes Two and Unravel Two have multiplayer options. Player limits depend on the chosen game and café controller availability. G29 racing is one driver per wheel."],
+    ["Which racing games are available?", "The G29 racing list includes Forza Horizon 5, The Crew Motorfest and F1 26, subject to café confirmation. The one-hour G29 price is ₹150, saving ₹50 compared with two ₹100 half-hours."],
     ["Where is Pixel Paradise?", "Find us in Sector 56, Noida, Uttar Pradesh. Tap Get Directions for the official map location."]
   ];
   return <main>
@@ -69,12 +70,12 @@ function Home({ onBook }) {
         <div className="hero-content">
           <div className="eyebrow"><span className="live-dot"/> SECTOR 56, NOIDA <span className="eyebrow-divider"/> ULTIMATE GAMING HEAVEN</div>
           <h1>YOUR SPACE.<br/><span>YOUR SQUAD.</span><br/><em>YOUR GAME.</em></h1>
-          <p className="hero-sub">Your ultimate gaming heaven in Noida. <b>PS5, PS4 and the G29 racing wheel experience.</b> Big games, better company and one more round.</p>
+          <p className="hero-sub">Your ultimate gaming heaven in Noida. <b>PS5 multiplayer gaming and solo G29 six-gear racing.</b> Big games, better company and one more round.</p>
           <div className="hero-actions">
             <button className="btn btn-acid" onClick={onBook}>BOOK YOUR SESSION <ArrowUpRight size={19}/></button>
             <Link to="/membership" className="btn btn-outline">EXPLORE MEMBERSHIPS <ArrowRight size={18}/></Link>
           </div>
-          <div className="hero-trust"><div className="avatar-stack"><span>PX</span><span>05</span><span>GG</span></div><div><strong>THE PLACE TO PRESS PLAY</strong><small>PS5 • PS4 • G29 RACING WHEEL</small></div></div>
+          <div className="hero-trust"><div className="avatar-stack"><span>PX</span><span>05</span><span>GG</span></div><div><strong>THE PLACE TO PRESS PLAY</strong><small>PS5 • G29 SIX-GEAR RACING</small></div></div>
         </div>
         <div className="hero-visual">
           <img src={heroImage} alt="Neon gaming setup representing the Pixel Paradise gaming atmosphere" className="hero-photo"/>
@@ -95,9 +96,9 @@ function Home({ onBook }) {
       <div className="container">
         <div className="section-head"><div><SectionLabel>01 / THE EXPERIENCE</SectionLabel><h2>NOT JUST A GAME.<br/><span>IT'S A WHOLE VIBE.</span></h2></div><p>Drop in, plug in and disappear into your next favourite game. Whether you're a solo player or rolling deep with your crew, there's a spot for you.</p></div>
         <div className="experience-grid">
-          <article className="experience-card experience-card-main"><img src={consoleImage} alt="PlayStation gaming controller" loading="lazy"/><div className="experience-overlay"/><div className="experience-top"><span>01 / CONSOLE ZONE</span><Gamepad2 size={25}/></div><div className="experience-copy"><span className="pill">PS5 + PS4</span><h3>CONSOLE<br/>CULTURE.</h3><p>Your next gaming session, upgraded. Ask about your favourite titles and available stations.</p></div></article>
+          <article className="experience-card experience-card-main"><img src={consoleImage} alt="PlayStation gaming controller" loading="lazy"/><div className="experience-overlay"/><div className="experience-top"><span>01 / CONSOLE ZONE</span><Gamepad2 size={25}/></div><div className="experience-copy"><span className="pill">PS5 • SOLO + MULTIPLAYER</span><h3>CONSOLE<br/>CULTURE.</h3><p>Tekken 8, FC 26, WWE 2K26, Spider-Man and more. Take on your friends or start your own story.</p></div></article>
           <article className="experience-card experience-card-social"><img src={loungeImage} alt="Gamers enjoying a competitive gaming event" loading="lazy"/><div className="experience-overlay"/><div className="experience-top"><span>02 / THE COMMUNITY</span><Users size={25}/></div><div className="experience-copy"><span className="pill">BETTER TOGETHER</span><h3>BRING YOUR<br/>PEOPLE.</h3><p>Rivalries, rematches and unbeatable hangouts. The squad is the whole point.</p></div></article>
-          <article className="experience-card experience-card-text"><div className="starburst">🏁</div><div><span>03 / RACING EXPERIENCE</span><h3>G29 WHEEL.<br/>RACING<br/><em>FEELS REAL.</em></h3><p className="racing-description">Get behind the wheel and experience the thrill of racing. Ask about availability.</p></div><ArrowUpRight size={35}/></article>
+          <article className="experience-card experience-card-text"><div className="starburst">🏁</div><div><span>03 / RACING EXPERIENCE</span><h3>G29 WHEEL.<br/>RACING<br/><em>FEELS REAL.</em></h3><p className="racing-description">Solo car gaming with a G29 six-gear shifter. Forza Horizon 5, Motorfest and F1 26. Save ₹50 on your full hour.</p></div><ArrowUpRight size={35}/></article>
         </div>
       </div>
     </section>
@@ -109,7 +110,7 @@ function Home({ onBook }) {
     </section>
 
     <section className="section how-section"><div className="container"><div className="section-head compact"><div><SectionLabel>03 / YOUR NEXT SESSION</SectionLabel><h2>THREE STEPS.<br/><span>ENDLESS ROUNDS.</span></h2></div></div><div className="steps-grid">{[
-      {n:"01",icon:<Gamepad2/>,title:"PICK YOUR PLAY",text:"Choose PS5, PS4 or the G29 Racing Wheel and tell us when you want to play."},
+      {n:"01",icon:<Gamepad2/>,title:"PICK YOUR PLAY",text:"Pick PS5 or the single-player G29 racing wheel, then choose your game and play time."},
       {n:"02",icon:<CalendarDays/>,title:"REQUEST YOUR SPOT",text:"Send a booking enquiry through WhatsApp. We'll confirm availability."},
       {n:"03",icon:<Zap/>,title:"SHOW UP & GAME",text:"Bring your crew, settle in, and let the good games begin."}
     ].map(step => <div className="step-card" key={step.n}><span className="step-n">{step.n}</span><span className="step-icon">{step.icon}</span><h3>{step.title}</h3><p>{step.text}</p></div>)}</div><div className="centered-action"><button className="text-link" onClick={onBook}>LET'S BOOK A SESSION <ArrowUpRight size={18}/></button></div></div></section>

@@ -38,8 +38,53 @@ export function whatsappLink(message) {
 }
 export function contactLink() { return "https://wa.me/" + cafe.whatsappNumber; }
 
+// Display titles supplied by the café; availability and local player/controller capacity
+// are always subject to confirmation at the counter.
 export const sessions = [
-  { id: "ps5", category: "PLAYSTATION 5", title: "PS5 GAMING", subtitle: "Next-gen console sessions", console: "PS5", halfHour: 60, hour: 100 },
-  { id: "ps4", category: "PLAYSTATION 4", title: "PS4 GAMING", subtitle: "Your favourites, your squad", console: "PS4", halfHour: 40, hour: 80 },
-  { id: "g29", category: "RACING SIMULATOR", title: "G29 RACING", subtitle: "Get behind the wheel", console: "G29 Racing Wheel", halfHour: 100, hour: 150 }
+  {
+    id: "ps5", category: "PLAYSTATION 5", title: "PS5 GAMING",
+    subtitle: "Solo adventures & local multiplayer battles",
+    console: "PS5", halfHour: 60, hour: 100, maxPlayers: 4,
+    games: [
+      { id: "gta5", name: "GTA 5", minPlayers: 1, maxPlayers: 1, mode: "Solo" },
+      { id: "tekken8", name: "Tekken 8", minPlayers: 1, maxPlayers: 2, mode: "Versus" },
+      { id: "mortalkombat", name: "Mortal Kombat", minPlayers: 1, maxPlayers: 2, mode: "Versus" },
+      { id: "spiderman", name: "Spider-Man", minPlayers: 1, maxPlayers: 1, mode: "Solo" },
+      { id: "wwe2k26", name: "WWE 2K26", minPlayers: 1, maxPlayers: 4, mode: "Multiplayer" },
+      { id: "fc26", name: "FC 26", minPlayers: 1, maxPlayers: 4, mode: "Multiplayer" },
+      { id: "streetfighter", name: "Street Fighter", minPlayers: 1, maxPlayers: 2, mode: "Versus" },
+      { id: "ittakestwo", name: "It Takes Two", minPlayers: 2, maxPlayers: 2, mode: "Co-op" },
+      { id: "village", name: "Resident Evil Village", minPlayers: 1, maxPlayers: 1, mode: "Solo" },
+      { id: "watchdogs", name: "Watch Dogs", minPlayers: 1, maxPlayers: 1, mode: "Solo" },
+      { id: "ffxvi", name: "Final Fantasy XVI", minPlayers: 1, maxPlayers: 1, mode: "Solo" },
+      { id: "unraveltwo", name: "Unravel Two", minPlayers: 1, maxPlayers: 2, mode: "Co-op" },
+      { id: "wolong", name: "Wo Long", minPlayers: 1, maxPlayers: 1, mode: "Solo" },
+      { id: "cod", name: "Call of Duty", minPlayers: 1, maxPlayers: 1, mode: "Ask about edition" }
+    ]
+  },
+  {
+    id: "g29", category: "CAR RACING", title: "G29 RACING",
+    subtitle: "Logitech G29 wheel + six-gear shifter • single-player setup",
+    console: "G29 Racing Wheel", halfHour: 100, hour: 150, maxPlayers: 1,
+    games: [
+      { id: "forza5", name: "Forza Horizon 5", minPlayers: 1, maxPlayers: 1, mode: "Solo" },
+      { id: "motorfest", name: "The Crew Motorfest", minPlayers: 1, maxPlayers: 1, mode: "Solo" },
+      { id: "f126", name: "F1 26", minPlayers: 1, maxPlayers: 1, mode: "Solo" }
+    ]
+  }
 ];
+
+// The ₹50 G29 one-hour saving is versus buying two ₹100 half-hour sessions.
+export function hourlySaving(session) {
+  return Math.max(0, session.halfHour * 2 - session.hour);
+}
+
+export function gameForSession(session, id) {
+  return session.games.find(game => game.id === id) || session.games[0];
+}
+
+export function allowedPlayerCounts(session, game) {
+  const minimum = Math.max(1, game.minPlayers || 1);
+  const maximum = Math.min(session.maxPlayers, game.maxPlayers);
+  return Array.from({length: Math.max(0, maximum - minimum + 1)}, (_, index) => minimum + index);
+}
