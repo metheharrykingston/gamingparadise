@@ -34,9 +34,11 @@ export default function SessionPricing({ onBook }) {
           <div className="session-game-list">
             <div className="session-game-list-heading"><Gamepad2 size={17}/> AVAILABLE GAME LIST <small>{session.games.length} TITLES</small></div>
             <div className="session-game-tags">
-              {session.games.map(game => <span className="session-game-tag" key={game.id}>
+              {session.games.map(game => <button type="button" className="session-game-tag" key={game.id}
+                onClick={()=>onBook(session.console,game.id)}
+                aria-label={"Book "+game.name+" on "+session.title}>
                 {game.name}{game.maxPlayers > 1 && <b>{game.maxPlayers}P</b>}
-              </span>)}
+              </button>)}
             </div>
             <p className="session-game-footnote">
               {session.id === "ps5" ? "2P and 4P badges indicate local multiplayer options for supported titles. Final controller and game availability confirmed by the café." : "One driver per wheel session. Ask the café to confirm your preferred racing title and controller compatibility."}
