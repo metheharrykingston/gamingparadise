@@ -7,6 +7,7 @@ import {
   Users, X, Zap
 } from "lucide-react";
 import { gamesForParty, playerCountsForParty, hourlySaving, sessions, whatsappLink } from "./config";
+import { cafeBookingSlots, cafeIndiaNow, isCafeBookingSlot } from "./bookingSlots.js";
 import "./booking-wizard.css";
 
 const steps = [
@@ -17,14 +18,6 @@ const steps = [
   { name: "REVIEW REQUEST", short: "REVIEW", subtitle: "Review your choices before contacting the café." }
 ];
 
-function indiaNow() {
-  const parts = new Intl.DateTimeFormat("en-GB", {
-    timeZone: "Asia/Kolkata", year: "numeric", month: "2-digit", day: "2-digit",
-    hour: "2-digit", minute: "2-digit", hourCycle: "h23"
-  }).formatToParts(new Date());
-  const p = Object.fromEntries(parts.map(item => [item.type, item.value]));
-  return { date: p.year + "-" + p.month + "-" + p.day, hour: Number(p.hour), minute: Number(p.minute) };
-}
 function prettyDate(value) {
   if (!value) return "SELECT DATE";
   const [y, m, d] = value.split("-").map(Number);
@@ -35,8 +28,8 @@ function prettyTime(value) {
   const [h, m] = value.split(":").map(Number);
   return String(h % 12 || 12) + ":" + String(m).padStart(2,"0") + (h >= 12 ? " PM" : " AM");
 }
-function buildMessage(values) {
-  const {setup, game, duration, date, time, name, phone, players, note, rate} = values;
+export function buildMessage(values) {
+  const {setup, game, duration, date, time, name, phone, players, note = "", snack = "", rate} = values;
   return [
     "🎮 *PIXEL PARADISE GAMING CAFE*",
     "🟣 *New gaming session request*",
@@ -53,6 +46,7 @@ function buildMessage(values) {
     "💜 Displayed setup rate: ₹" + rate,
     setup.id === "g29" && duration === 60 ? "🏷️ Hourly saving: ₹" + hourlySaving(setup) + " versus two half-hour slots" : "",
     note.trim() ? "📝 Special request: " + note.trim() : "",
+    snack.trim() ? "🍿 Snacks / drinks requested (optional, extra charge): " + snack.trim() : "",
     "",
     "📍 Pixel Paradise, Sector 56, Noida",
     "Please confirm my slot, final price and availability. Thank you!"
@@ -76,6 +70,7 @@ export default function BookingWizard({ initialConsole = "PS5", initialGameId = 
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [note, setNote] = useState("");
+  const [snack, setSnack] = useState("");
   const [error, setError] = useState("");
   const [copied, setCopied] = useState(false);
   const rootRef = useRef(null);
@@ -88,16 +83,12 @@ export default function BookingWizard({ initialConsole = "PS5", initialGameId = 
   const visibleGames = gamesForParty(setup, partyType);
   const game = setup.games.find(item => item.id === gameId) || null;
   const playerOptions = playerCountsForParty(setup, game, partyType);
-  const now = indiaNow();
-  const slots = useMemo(() => {
-    const result = [];
-    for (let min = 600; min + duration <= 1320; min += 30) {
-      if (date === now.date && min <= now.hour * 60 + now.minute) continue;
-      result.push(String(Math.floor(min / 60)).padStart(2,"0") + ":" + String(min % 60).padStart(2,"0"));
-    }
-    return result;
-  }, [date, duration, now.date, now.hour, now.minute]);
-  const message = game ? buildMessage({ setup, game, duration, date, time, name, phone, players, note, rate }) : "";
+  const now = cafeIndiaNow();
+  const slots = useMemo(
+    () => cafeBookingSlots(duration, date),
+    [date, duration, now.date, now.minutes]
+  );
+  const message = game ? buildMessage({ setup, game, duration, date, time, name, phone, players, note, snack, rate }) : "";
   function selectSetup(next) {
     if (next.id === setupId) return;
     setSetupId(next.id); setPartyType("solo"); setGameId(""); setPlayers("1"); setError("");
@@ -164,8 +155,8 @@ export default function BookingWizard({ initialConsole = "PS5", initialGameId = 
     if (step === 1 && (!game || !visibleGames.some(g => g.id === game.id) || !playerOptions.includes(Number(players)))) {
       setError("Choose a game and valid player count before continuing."); return;
     }
-    if (step === 2 && (!date || !time || !slots.includes(time) || date < indiaNow().date)) {
-      setError("Choose a future date and an available starting time."); return;
+    if (step === 2 && !isCafeBookingSlot(duration, date, time, new Date())) {
+      setError("Choose a future slot between 10 AM and 10 PM. The session must end by closing."); return;
     }
     if (step === 3) {
       if (!playerOptions.includes(Number(players))) { setError("Choose a supported player count."); return; }
@@ -252,8 +243,8 @@ export default function BookingWizard({ initialConsole = "PS5", initialGameId = 
               <div className="wizard-input-group"><label htmlFor="wizard-date"><CalendarDays size={15}/> SELECT YOUR DATE</label><input type="date" id="wizard-date" min={now.date} value={date} onChange={e=>{setDate(e.target.value);setTime("");}}/></div>
               <div className="wizard-input-group"><label htmlFor="wizard-time"><Clock3 size={15}/> START TIME</label><select id="wizard-time" value={time} onChange={e=>setTime(e.target.value)} disabled={!date}><option value="">Choose a time</option>{slots.map(s=><option key={s} value={s}>{prettyTime(s)}</option>)}</select></div>
             </div>
-            <div className="wizard-hint"><ShieldCheck size={16}/> Open 10 AM to 10 PM. Times shown are enquiries, not live availability.</div>
-            {date&&slots.length===0&&<p className="wizard-error">No session starts left today. Please choose another date.</p>}
+            <div className="wizard-hint"><ShieldCheck size={16}/> Every day, 10 AM–10 PM IST. Your full session must finish by 10 PM. Times are requests, not live availability.</div>
+            {date&&slots.length===0&&<p className="wizard-error">No valid starts left for this date within 10 AM–10 PM. Choose another day.</p>}
           </div>}
           {step===3&&<div className="wizard-fields">
             <div className="wizard-input-row">
@@ -262,7 +253,12 @@ export default function BookingWizard({ initialConsole = "PS5", initialGameId = 
             </div>
             <div className="wizard-input-row">
               <div className="wizard-input-group"><label htmlFor="wizard-players"><Users size={15}/> {setup.id==="g29"?"DRIVERS (1 PER WHEEL)":"NUMBER OF PLAYERS"}</label><select id="wizard-players" value={players} onChange={e=>setPlayers(e.target.value)} disabled={playerOptions.length===1}>{playerOptions.map(n=><option key={n} value={String(n)}>{n} {n===1?"Player":"Players"}</option>)}</select><small className="wizard-player-guidance">{setup.id==="g29"?"G29 racing is single-player per wheel.":game.minPlayers===2?"This co-op game requires two players.":"Player count depends on the selected game."}</small></div>
-              <div className="wizard-input-group"><label htmlFor="wizard-note">SPECIAL REQUEST</label><input id="wizard-note" maxLength={180} placeholder="Controller or setup request (optional)" value={note} onChange={e=>setNote(e.target.value)}/></div>
+              <div className="wizard-input-group"><label htmlFor="wizard-note">SPECIAL REQUEST (OPTIONAL)</label><input id="wizard-note" maxLength={180} placeholder="Controller or setup request" value={note} onChange={e=>setNote(e.target.value)}/></div>
+            </div>
+            <div className="wizard-input-group wizard-snack-request">
+              <label htmlFor="wizard-snack">🍿 SNACKS / DRINKS (OPTIONAL)</label>
+              <input id="wizard-snack" maxLength={120} placeholder="E.g. chips, cold drink, coffee, or leave blank" value={snack} onChange={e=>setSnack(e.target.value)}/>
+              <small>Snacks aren't included in the session price. Café will confirm stock and additional cost.</small>
             </div>
             <div className="wizard-hint"><ShieldCheck size={16}/> Booking {game?.name} for {players} {players==="1"?"player":"players"}. This only prepares your WhatsApp message, not a confirmed slot.</div>
           </div>}
@@ -276,8 +272,9 @@ export default function BookingWizard({ initialConsole = "PS5", initialGameId = 
               <div><small><Clock3 size={14}/> TIME</small><strong>{prettyTime(time)}</strong></div>
               <div><small><Users size={14}/> PLAYER / PARTY</small><strong>{name.trim()} · {players} {players==="1"?"PLAYER":"PLAYERS"}</strong></div>
               <div><small><Trophy size={14}/> DISPLAYED RATE</small><strong>₹{rate}</strong></div>
+              {snack.trim()&&<div><small>🍿 OPTIONAL SNACKS</small><strong>{snack.trim()} · Price confirmed by café</strong></div>}
             </div>
-            <div className="wizard-total"><span>DISPLAYED SETUP RATE <small>Final total confirmed by café{setup.id==="g29" && duration===60 ? " · Save ₹"+hourlySaving(setup)+" vs two 30-min sessions" : ""}</small></span><strong>₹{rate}</strong></div>
+            <div className="wizard-total"><span>DISPLAYED SETUP RATE <small>Snacks extra if requested. Final total confirmed by café{setup.id==="g29" && duration===60 ? " · Save ₹"+hourlySaving(setup)+" vs two 30-min sessions" : ""}</small></span><strong>₹{rate}</strong></div>
             <div className="wizard-whatsapp-note"><MessageCircle size={25}/><div><strong>ONE TAP TO WHATSAPP</strong><span>Your message is prefilled for +91 87459 98333. Just press <b>Send</b> in WhatsApp. This is a request, not a confirmed booking.</span></div></div>
           </div>}
         </div></div>
@@ -285,7 +282,10 @@ export default function BookingWizard({ initialConsole = "PS5", initialGameId = 
         <div className="wizard-action-area">{step>0?<button type="button" className="wizard-back" onClick={back}><ArrowLeft size={17}/> BACK</button>:<span className="wizard-action-hint"><Zap size={16}/> PRESS START</span>}
           {step===1&&game&&<span className="wizard-game-current" aria-live="polite"><CheckCircle2 size={15}/><span>{game.name} · {players}P</span></span>}
           {step<4?<button type="button" className="wizard-next" onClick={advance}>{step===3?"REVIEW REQUEST":step===0?"CHOOSE A GAME":step===1?"PICK PLAY TIME":"CONTINUE"} <ArrowRight size={19}/></button>:
-            <a className="wizard-next wizard-whatsapp-cta" href={whatsappLink(message)} target="_blank" rel="noopener noreferrer"><MessageCircle size={19}/> OPEN WHATSAPP <ArrowUpRight size={19}/></a>}
+            <a className="wizard-next wizard-whatsapp-cta" href={whatsappLink(message)} target="_blank" rel="noopener noreferrer"
+              onClick={e=>{if (!isCafeBookingSlot(duration, date, time, new Date())) {
+                e.preventDefault(); setError("This time has passed or runs outside 10 AM–10 PM. Pick a new slot."); setStep(2);
+              }}}><MessageCircle size={19}/> OPEN WHATSAPP <ArrowUpRight size={19}/></a>}
         </div>
         {step===4&&<div className="wizard-fallback"><button type="button" onClick={copy}>{copied?<Check size={14}/>:<Copy size={14}/>} {copied?"MESSAGE COPIED":"COPY MESSAGE"}</button><span>WhatsApp opens with your message ready. You decide when to send.</span></div>}
       </div>
