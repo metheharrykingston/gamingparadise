@@ -156,3 +156,69 @@
 .wizard-player-guidance{color:#ddbbdf;font-size:10px;line-height:1.6}
 .wizard-duration small{line-height:1.6}
 @media(max-width:700px){.wizard-setup-grid{grid-template-columns:1fr}.wizard-game-choice{margin-top:14px;padding:14px}}
+
+
+/* Visible game-first booking step: clear party mode -> game -> compatible player count */
+.wizard-party-heading,.wizard-game-heading{display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap;color:#ffbce5;font-size:11px;font-weight:900;letter-spacing:.1em}
+.wizard-party-heading>span,.wizard-game-heading>span{display:inline-flex;align-items:center;gap:9px}
+.wizard-party-heading>small,.wizard-game-heading>small{font-size:9px;color:#bca2c8;letter-spacing:.08em;font-weight:800}
+.wizard-game-heading{margin-top:25px;margin-bottom:13px}
+.wizard-game-heading b{font:900 8px "DM Sans",sans-serif;color:#150b1b;background:#ffbf85;padding:5px 7px;letter-spacing:.08em}
+.wizard-party-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:14px 0 6px}
+.wizard-party-grid>button,.wizard-solo-notice{min-width:0;min-height:109px;padding:15px;background:linear-gradient(155deg,#291a36,#19101f);border:1px solid #785984;color:#fff;display:flex;flex-direction:column;align-items:flex-start;justify-content:space-between;gap:7px;text-align:left}
+.wizard-party-grid>button{cursor:pointer;transition:background .2s,border-color .2s}
+.wizard-party-grid>button>svg,.wizard-solo-notice>svg{color:#ff97d6}
+.wizard-party-grid>button strong{font:900 26px/.95 "Barlow Condensed",Impact,sans-serif;letter-spacing:.025em}
+.wizard-party-grid>button span{font-size:9px;font-weight:900;letter-spacing:.08em;color:#ceb0d1}
+.wizard-party-grid>button.active{border-color:#ff69ba;box-shadow:inset 0 0 0 1px #e91e9390;background:linear-gradient(155deg,#64305e,#28132c)}
+.wizard-party-grid>button.active span{color:#fff}
+.wizard-solo-notice{flex-direction:row;justify-content:flex-start;align-items:center;gap:14px;color:#ffe0bc;background:#5d33263b;border-color:#b9794b}
+.wizard-solo-notice span{font-size:11px;font-weight:900;line-height:1.8}
+.wizard-solo-notice small{color:#d7b2ac;font-size:9px;letter-spacing:.09em}
+.wizard-game-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+.wizard-game-tile{width:100%;min-width:0;min-height:96px;display:flex;flex-direction:column;justify-content:space-between;gap:8px;padding:12px 14px;border:1px solid #654976;background:#1d1325;color:#fff;text-align:left;cursor:pointer;transition:background .2s,border-color .2s}
+.wizard-game-tile:hover{border-color:#d56ba8;background:#351d38}
+.wizard-game-tile.selected{border-color:#ff78c6;background:linear-gradient(145deg,#713268,#32172e);box-shadow:inset 0 0 0 1px #ff78c64d}
+.wizard-game-tile-top{display:flex;align-items:center;justify-content:space-between;gap:7px;color:#b8a5c2}
+.wizard-game-tile-top>span{font-size:9px;font-weight:900;letter-spacing:.12em}
+.wizard-game-tile.selected .wizard-game-tile-top{color:#ffcde8}
+.wizard-game-tile strong{font:900 24px/.95 "Barlow Condensed",Impact,sans-serif;letter-spacing:.01em}
+.wizard-game-tile small{font-size:9px;font-weight:900;letter-spacing:.06em;color:#e3b5d7}
+.wizard-game-selection{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;background:#f6b0df;color:#240e2b;margin:14px 0;padding:13px 15px}
+.wizard-game-selection>div:first-child{display:flex;align-items:center;gap:9px;min-width:0}
+.wizard-game-selection>div:first-child>span{display:grid;gap:4px}
+.wizard-game-selection>div:first-child small{font-size:9px;font-weight:900;letter-spacing:.1em}
+.wizard-game-selection>div:first-child strong{font:900 22px "Barlow Condensed",Impact,sans-serif}
+.wizard-player-count{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.wizard-player-count>span{display:flex;gap:5px;align-items:center;font-size:10px;font-weight:900}
+.wizard-player-count>div{display:flex;gap:5px}
+.wizard-player-count button{width:36px;height:36px;border:1px solid #693a6d;background:transparent;color:#391b3d;font-weight:900;cursor:pointer}
+.wizard-player-count button.selected{background:#37153d;color:#fff}
+.wizard-game-note{display:flex;gap:10px;align-items:flex-start;color:#bba7c3;font-size:11px;line-height:1.7;margin:14px 0 0}
+.wizard-game-note svg{flex:none;color:#f69dce}
+.wizard-progress-labels{gap:7px}
+.wizard-game-current{display:inline-flex;align-items:center;gap:6px;min-width:0;color:#ffe0ef;font-size:10px;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.wizard-game-current svg{flex-shrink:0;color:#f878c5}
+.wizard-game-current span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+@media(max-width:700px){
+ .wizard-party-heading,.wizard-game-heading{font-size:10px}
+ .wizard-party-grid>button,.wizard-solo-notice{min-height:88px;padding:11px}
+ .wizard-party-grid>button strong{font-size:22px}
+ .wizard-party-grid>button span{font-size:8px}
+ .wizard-game-grid{gap:8px}
+ .wizard-game-tile{min-height:87px;padding:10px;gap:6px}
+ .wizard-game-tile strong{font-size:22px}
+ .wizard-game-tile-top>span,.wizard-game-tile small{font-size:8px}
+ .wizard-game-selection{padding:12px;align-items:flex-start}
+ .wizard-game-current{max-width:145px;font-size:9px}
+ .wizard-progress-labels{gap:4px}
+ .wizard-progress-labels span{font-size:7px;letter-spacing:0}
+}
+@media(max-width:370px){
+ .wizard-party-grid>button strong{font-size:19px}
+ .wizard-game-tile strong{font-size:20px}
+ .wizard-game-current{max-width:105px}
+}
+@media(prefers-reduced-motion:reduce){
+ .wizard-party-grid>button,.wizard-game-tile{transition:none}
+}

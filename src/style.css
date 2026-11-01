@@ -180,3 +180,8 @@ html{scroll-padding-top:70px}
 .session-card .btn-session{margin-top:auto}
 @media(max-width:960px){.session-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.session-g29{grid-column:auto;min-height:0}}
 @media(max-width:700px){.session-grid{grid-template-columns:1fr}.session-card{min-height:0}.session-main h3{font-size:48px}.session-game-tags{gap:7px}.session-game-tag{font-size:11px;padding:9px}}
+
+/* Game titles on the pricing cards are actual booking entry points. */
+.session-game-tag{cursor:pointer;text-align:left;font-family:inherit;transition:background .18s,border-color .18s,transform .18s}
+.session-game-tag:hover{background:#663066;border-color:#ee87c8;transform:translateY(-2px)}
+.session-game-tag:focus-visible{outline:2px solid #ff93d8;outline-offset:3px}
