@@ -131,7 +131,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,te
 .session-card-top{display:flex;justify-content:space-between;align-items:center;gap:12px;color:#e6d3ea}
 .session-index{font-size:10px;letter-spacing:.14em;font-weight:900}
 .session-symbol{width:50px;height:50px;background:#e91e93;color:#fff;display:grid;place-items:center;border-radius:50%}
-.session-ps4 .session-symbol{background:#6e3f9b}
+
 .session-main{margin-top:35px}
 .session-main h3{font-size:clamp(38px,4vw,57px);line-height:.9;margin:0 0 12px;color:#fff}
 .session-main p{color:#baaac4;font-size:13px}
@@ -157,3 +157,26 @@ html{scroll-padding-top:70px}
 .session-note{font-size:12px}
 .member-card-logo{width:76px;height:76px}
 }
+
+/* PS5 multiplayer + one-driver G29 racing showcase */
+.session-grid{grid-template-columns:repeat(2,minmax(0,1fr));align-items:stretch;gap:24px}
+.session-card{min-height:560px;padding:clamp(21px,3vw,33px)}
+.session-main{margin-top:26px}
+.session-main h3{font-size:clamp(39px,4.2vw,60px)}
+.session-player-pill{display:inline-flex;align-items:center;gap:8px;margin-top:16px;padding:9px 12px;border:1px solid #ea92da77;background:#e91e931c;color:#f6c8e9;font-size:10px;font-weight:900;letter-spacing:.07em}
+.session-g29 .session-player-pill{background:#ffbf7f18;border-color:#ffbb7888;color:#ffd6aa}
+.session-gear-note{display:flex;align-items:center;gap:11px;margin:20px 0 0;color:#f9d3f2;font-size:11px;font-weight:900;letter-spacing:.12em}
+.session-gear-note span{color:#ffcf7f}
+.session-saving{display:flex;flex-wrap:wrap;align-items:center;gap:8px;color:#1a1022;background:#ffc279;padding:14px;font-size:13px;font-weight:1000;margin:0 0 22px}
+.session-saving small{display:block;flex-basis:100%;padding-left:26px;font-size:10px;font-weight:700;line-height:1.4}
+.session-game-list{margin:14px 0 24px;padding-top:18px;border-top:1px solid #dfb5dc44}
+.session-game-list-heading{display:flex;align-items:center;gap:8px;font-size:11px;letter-spacing:.1em;font-weight:900;color:#fff}
+.session-game-list-heading small{margin-left:auto;color:#e7a8d5;font-size:10px;white-space:nowrap}
+.session-game-tags{display:flex;flex-wrap:wrap;gap:9px;margin-top:17px}
+.session-game-tag{display:inline-flex;align-items:center;gap:7px;border:1px solid #6b5275;background:#261b30;padding:9px 11px;color:#eee0ef;font-size:12px;line-height:1.25;font-weight:750}
+.session-game-tag b{color:#230f28;background:#f6b0e5;font-size:9px;padding:3px 4px;white-space:nowrap}
+.session-g29 .session-game-tag{background:#351d3e}
+.session-game-footnote{color:#bfaac5;font-size:11px;line-height:1.65;margin:14px 0 0}
+.session-card .btn-session{margin-top:auto}
+@media(max-width:960px){.session-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.session-g29{grid-column:auto;min-height:0}}
+@media(max-width:700px){.session-grid{grid-template-columns:1fr}.session-card{min-height:0}.session-main h3{font-size:48px}.session-game-tags{gap:7px}.session-game-tag{font-size:11px;padding:9px}}
