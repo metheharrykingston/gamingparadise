@@ -8,10 +8,31 @@ export const cafe = {
   whatsappNumber: "918745998333" // Verified for booking enquiries by café owner.
 };
 export const plans = [
-  {id:"visitor",label:"PLAY IT CASUAL",title:"DROP-IN",description:"A quick game, a spontaneous hangout, no commitment.",price:"PAY PER VISIT",priceNote:"Ask the café for session rates",features:["PS5, PS4 or G29 wheel on availability","Book a casual gaming or racing session","Perfect for first-time visitors"],action:"REQUEST A SESSION",featured:false},
-  {id:"regular",label:"FOR THE REGULARS",title:"PIXEL PASS",description:"For players who keep coming back for one more round.",price:"PRICE ON REQUEST",priceNote:"Membership package enquiry",features:["Ask about regular-player packages","Get updates on current member offers","One easy point of contact with the team"],action:"REQUEST PIXEL PASS",featured:true},
-  {id:"squad",label:"BETTER TOGETHER",title:"SQUAD PASS",description:"When your favourite game is better with your people.",price:"CUSTOM ENQUIRY",priceNote:"Group sessions and membership",features:["Enquire about group bookings","Ask about recurring squad sessions","Plan a match night with the café"],action:"ENQUIRE AS A SQUAD",featured:false}
+  {
+    id:"basic",label:"THE EVERYDAY PLAYER",title:"BASIC PASS",
+    description:"Easy entry into a month of more play.",
+    price:"₹1,499",actualValue:"₹2,000",hours:20,bonusHours:0,priceNote:"per month",
+    features:["20 hours of gaming time","Advance booking not included (confirm with café)","Setup and hours subject to café terms"],
+    action:"REQUEST BASIC PASS",featured:false
+  },
+  {
+    id:"pro",label:"MOST POPULAR",title:"PRO PASS",
+    description:"More hours. More matches. More reasons to come back.",
+    price:"₹2,799",actualValue:"₹4,000",hours:40,bonusHours:3,priceNote:"per month",
+    features:["40 hours + 3 bonus hours","43 total promotional play hours","Bonus-hour and setup terms confirmed by café"],
+    action:"REQUEST PRO PASS",featured:true
+  },
+  {
+    id:"elite",label:"PREMIUM PLAYER",title:"ELITE PASS",
+    description:"The top-tier monthly play package.",
+    price:"₹3,999",actualValue:"₹6,000",hours:60,bonusHours:0,priceNote:"per month",
+    features:["60 hours of gaming time","Premium setups: racing and big screen","Premium equipment is subject to availability"],
+    action:"REQUEST ELITE PASS",featured:false
+  }
 ];
+// These are the monthly-pass offers transcribed from the café poster.
+// GTA VI-specific sessions, purchases and launch-day pricing are NOT included in these prices.
+
 export function whatsappLink(message) {
   return "https://wa.me/" + cafe.whatsappNumber + "?text=" + encodeURIComponent(message);
 }

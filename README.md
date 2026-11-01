@@ -70,3 +70,29 @@ Vercel security headers and client-side SPA rewrites are configured in vercel.js
 ## Deploy
 
 Import the repository in Vercel with Vite framework settings, build with npm run build and output directory dist. Confirm linked project permissions before release.
+
+
+## GTA VI launch-period requests (November 2026)
+
+The homepage and `/gta6` route feature a responsive, sporty launch-countdown experience. The release date is **19 November 2026**, as announced by Rockstar Games: https://www.rockstargames.com/newswire/article/ak3ak31a49a221/grand-theft-auto-vi-is-now-set-to-launch-november-19-2026
+
+- The countdown is to **00:00 on the announced launch calendar date in Asia/Kolkata**, not a guaranteed game unlock hour.
+- Players may **request** 60- or 120-minute café slots, every 30 minutes during 10 AM–10 PM, beginning on the announced launch date or later within a rolling 30-day window.
+- Name, phone, player count and optional notes are used to prepare a WhatsApp message. The frontend stores no GTA VI request data and does not have live slot inventory.
+- A request is **not** a reservation or guarantee that GTA VI is installed, playable or accessible at the café. The café must confirm equipment, game access, price and time.
+- GTA VI-specific play pricing is intentionally **unpublished** until the café chooses to release it. The advertised monthly passes do not imply GTA VI access, a game purchase or early access.
+- The site is an independent café promotion and not an official Rockstar Games preorder.
+
+To update the announced release date, adjust `GTA6_RELEASE_DATE` and `GTA6_COUNTDOWN_TARGET` in `src/gta6.js` together after checking the official announcement.
+
+## Monthly passes from the printed flyer
+
+| Monthly pass | Advertised hours | Poster value | Offer |
+| --- | --- | ---: | ---: |
+| Basic | 20 h | ₹2,000 | ₹1,499 |
+| Pro (most popular) | 40 h + 3 bonus | ₹4,000 | ₹2,799 |
+| Elite | 60 h | ₹6,000 | ₹3,999 |
+
+The flyer mentions advance booking on Basic with an X icon, so the site describes it as not included **subject to café confirmation**. Elite mentions premium setups such as racing and big screen. All inclusion, booking, setup and expiry terms need café confirmation. No online payment, login, live stock or membership activation exists.
+
+Tests for membership prices and GTA VI date, slots and WhatsApp handoff live in `test/gta6-membership.test.js`.
