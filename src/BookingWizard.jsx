@@ -169,7 +169,7 @@ export default function BookingWizard({ initialConsole = "PS5", initialGameId = 
     }
     if (step === 3) {
       if (!playerOptions.includes(Number(players))) { setError("Choose a supported player count."); return; }
-      const digits = phone.replace(/\\D/g, "");
+      const digits = phone.replace(/\D/g, "");
       if (name.trim().length < 2) { setError("Enter your name."); return; }
       if (!(digits.length === 10 || digits.length === 12 && digits.startsWith("91"))) {
         setError("Enter a valid 10-digit Indian mobile number."); return;
@@ -212,12 +212,39 @@ export default function BookingWizard({ initialConsole = "PS5", initialGameId = 
             <strong>{item.title}</strong><span className="wizard-tile-pricing">FROM ₹{item.halfHour} / 30 MIN</span>
             <span className="wizard-tile-choice">{setupId===item.id?<><Check size={15}/> SELECTED</>:<><ArrowUpRight size={15}/> CHOOSE</>}</span>
           </button>)}</div>}
-          {step===0&&<div className="wizard-game-choice">
-            <label htmlFor="wizard-game"><Gamepad2 size={17}/> SELECT YOUR GAME</label>
-            <select id="wizard-game" value={game.id} onChange={e=>selectGame(e.target.value)}>{setup.games.map(g=><option key={g.id} value={g.id}>{g.name} · {g.mode}</option>)}</select>
-            <p><Users size={15}/> {setup.id==="g29" ? "Single-player racing: one driver per G29 wheel with six-gear shifter." : game.maxPlayers>1 ? game.name+" supports up to "+game.maxPlayers+" local players (subject to available controllers)." : game.minPlayers===2 ? "2-player co-op game." : "Single-player selection. Choose Tekken, FC 26 or another multiplayer title to play together."}</p>
+          {step===1&&<div className="wizard-game-stage">
+            <div className="wizard-party-heading"><span><Users size={17}/> 01 / WHO'S PLAYING?</span><small>{setup.id==="g29"?"SINGLE DRIVER ONLY":"CHOOSE YOUR STYLE"}</small></div>
+            <div className="wizard-party-grid" role="group" aria-label="Choose solo or local multiplayer">
+              <button type="button" onClick={()=>selectParty("solo")} aria-pressed={partyType==="solo"} className={partyType==="solo"?"active":""}>
+                <Gamepad2 size={23}/><strong>SOLO PLAY</strong><span>JUST ME / 1 PLAYER</span>
+              </button>
+              {setup.id!=="g29"&&<button type="button" onClick={()=>selectParty("friends")} aria-pressed={partyType==="friends"} className={partyType==="friends"?"active":""}>
+                <Users size={23}/><strong>WITH FRIENDS</strong><span>LOCAL 2–4 PLAYER GAMES</span>
+              </button>}
+              {setup.id==="g29"&&<div className="wizard-solo-notice"><Gauge size={24}/><span>ONE DRIVER PER WHEEL<br/><small>G29 + SIX-GEAR SHIFTER</small></span></div>}
+            </div>
+            <div className="wizard-game-heading"><span><Gamepad2 size={17}/> 02 / PICK YOUR GAME <b>REQUIRED</b></span><small>{visibleGames.length} GAMES</small></div>
+            <div className="wizard-game-grid" role="group" aria-label="Choose a game">
+              {visibleGames.map(item=><button type="button" key={item.id} aria-pressed={gameId===item.id}
+                className={"wizard-game-tile "+(gameId===item.id?"selected":"")} onClick={()=>selectGame(item.id)}>
+                <span className="wizard-game-tile-top"><span>{item.mode.toUpperCase()}</span>{gameId===item.id?<CheckCircle2 size={19}/>:<Gamepad2 size={17}/>}</span>
+                <strong>{item.name}</strong>
+                <small>{partyType==="friends"?Math.min(item.maxPlayers,setup.maxPlayers)+" PLAYERS MAX":setup.id==="g29"?"1 DRIVER":"1 PLAYER"}{gameId===item.id?" · SELECTED":""}</small>
+              </button>)}
+            </div>
+            {game&&<div className="wizard-game-selection" aria-live="polite">
+              <div><CheckCircle2 size={20}/><span><small>YOUR SELECTION</small><strong>{game.name}</strong></span></div>
+              <div className="wizard-player-count">
+                <span><Users size={14}/> PLAYERS</span>
+                <div role="group" aria-label="Number of local players">
+                  {playerOptions.map(count=><button type="button" key={count} aria-pressed={Number(players)===count}
+                    className={Number(players)===count?"selected":""} onClick={()=>setPlayers(String(count))}>{count}</button>)}
+                </div>
+              </div>
+            </div>}
+            <p className="wizard-game-note"><ShieldCheck size={16}/> {setup.id==="g29"?"One driver per wheel, with six-gear shifter.":partyType==="friends"?"Local multiplayer only. Controllers, availability and final charges confirmed by café.":"Solo mode shows games you can enjoy on your own."}</p>
           </div>}
-          {step===1&&<div className="wizard-fields">
+          {step===2&&<div className="wizard-fields">
             <div className="wizard-input-group"><label>CHOOSE SESSION LENGTH</label><div className="wizard-duration-grid">{[30,60].map(v=><button key={v} type="button" className={"wizard-duration "+(duration===v?"selected":"")} aria-pressed={duration===v} onClick={()=>setDuration(v)}>
               <span><Timer size={19}/> {v===30?"30 MINUTES":"1 HOUR"}</span><strong>₹{v===30?setup.halfHour:setup.hour}</strong><small>{setup.id==="g29" && v===60 ? "SAVE ₹"+hourlySaving(setup)+" VS TWO HALF HOURS" : duration===v?"✓ SELECTED":"TAP TO CHOOSE"}</small>
             </button>)}</div></div>
@@ -228,7 +255,7 @@ export default function BookingWizard({ initialConsole = "PS5", initialGameId = 
             <div className="wizard-hint"><ShieldCheck size={16}/> Open 10 AM to 10 PM. Times shown are enquiries, not live availability.</div>
             {date&&slots.length===0&&<p className="wizard-error">No session starts left today. Please choose another date.</p>}
           </div>}
-          {step===2&&<div className="wizard-fields">
+          {step===3&&<div className="wizard-fields">
             <div className="wizard-input-row">
               <div className="wizard-input-group"><label htmlFor="wizard-name">PLAYER NAME *</label><input id="wizard-name" autoComplete="name" maxLength={80} placeholder="Your name" value={name} onChange={e=>setName(e.target.value)}/></div>
               <div className="wizard-input-group"><label htmlFor="wizard-phone">WHATSAPP / MOBILE *</label><input id="wizard-phone" type="tel" inputMode="tel" autoComplete="tel" maxLength={18} placeholder="+91 98765 43210" value={phone} onChange={e=>setPhone(e.target.value)}/></div>
@@ -237,10 +264,10 @@ export default function BookingWizard({ initialConsole = "PS5", initialGameId = 
               <div className="wizard-input-group"><label htmlFor="wizard-players"><Users size={15}/> {setup.id==="g29"?"DRIVERS (1 PER WHEEL)":"NUMBER OF PLAYERS"}</label><select id="wizard-players" value={players} onChange={e=>setPlayers(e.target.value)} disabled={playerOptions.length===1}>{playerOptions.map(n=><option key={n} value={String(n)}>{n} {n===1?"Player":"Players"}</option>)}</select><small className="wizard-player-guidance">{setup.id==="g29"?"G29 racing is single-player per wheel.":game.minPlayers===2?"This co-op game requires two players.":"Player count depends on the selected game."}</small></div>
               <div className="wizard-input-group"><label htmlFor="wizard-note">SPECIAL REQUEST</label><input id="wizard-note" maxLength={180} placeholder="Controller or setup request (optional)" value={note} onChange={e=>setNote(e.target.value)}/></div>
             </div>
-            <div className="wizard-hint"><ShieldCheck size={16}/> This information only prepares your WhatsApp message. No booking data is saved on our website.</div>
+            <div className="wizard-hint"><ShieldCheck size={16}/> Booking {game?.name} for {players} {players==="1"?"player":"players"}. This only prepares your WhatsApp message, not a confirmed slot.</div>
           </div>}
-          {step===3&&<div className="wizard-review">
-            <div className="wizard-ready-label"><CheckCircle2 size={17}/> LOADOUT COMPLETE • READY TO SEND</div>
+          {step===4&&<div className="wizard-review">
+            <div className="wizard-ready-label"><CheckCircle2 size={17}/> GAME + PLAYERS SELECTED • READY TO SEND</div>
             <div className="wizard-review-grid">
               <div><small><Gamepad2 size={14}/> GAMING SETUP</small><strong>{setup.title}</strong></div>
               <div><small><Gamepad2 size={14}/> CHOSEN GAME</small><strong>{game.name}</strong></div>
@@ -256,10 +283,10 @@ export default function BookingWizard({ initialConsole = "PS5", initialGameId = 
         </div></div>
         {error&&<p className="wizard-error" role="alert">{error}</p>}
         <div className="wizard-action-area">{step>0?<button type="button" className="wizard-back" onClick={back}><ArrowLeft size={17}/> BACK</button>:<span className="wizard-action-hint"><Zap size={16}/> PRESS START</span>}
-          {step<3?<button type="button" className="wizard-next" onClick={advance}>{step===2?"REVIEW LOADOUT":"NEXT LEVEL"} <ArrowRight size={19}/></button>:
+          {step<4?<button type="button" className="wizard-next" onClick={advance}>{step===3?"REVIEW REQUEST":step===0?"CHOOSE A GAME":step===1?"PICK PLAY TIME":"CONTINUE"} <ArrowRight size={19}/></button>:
             <a className="wizard-next wizard-whatsapp-cta" href={whatsappLink(message)} target="_blank" rel="noopener noreferrer"><MessageCircle size={19}/> OPEN WHATSAPP <ArrowUpRight size={19}/></a>}
         </div>
-        {step===3&&<div className="wizard-fallback"><button type="button" onClick={copy}>{copied?<Check size={14}/>:<Copy size={14}/>} {copied?"MESSAGE COPIED":"COPY MESSAGE"}</button><span>WhatsApp opens with your message ready. You decide when to send.</span></div>}
+        {step===4&&<div className="wizard-fallback"><button type="button" onClick={copy}>{copied?<Check size={14}/>:<Copy size={14}/>} {copied?"MESSAGE COPIED":"COPY MESSAGE"}</button><span>WhatsApp opens with your message ready. You decide when to send.</span></div>}
       </div>
     </div>
   </div>;
