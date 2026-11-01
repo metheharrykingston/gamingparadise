@@ -31,3 +31,31 @@ test("all public website routes render without crashing", { timeout: 60000 }, as
     await vite.close();
   }
 });
+
+test("booking wizard renders a dedicated game-selection step, never silently chooses a game", { timeout: 60000 }, async () => {
+  const vite = await createServer({
+    server: { middlewareMode: true, hmr: false },
+    appType: "custom",
+    logLevel: "error"
+  });
+  try {
+    const { default: BookingWizard } = await vite.ssrLoadModule("/src/BookingWizard.jsx");
+    const render = (props) => renderToString(React.createElement(BookingWizard, {
+      onClose: () => {}, ...props
+    }));
+    const start = render({ initialConsole: "PS5" });
+    assert.match(start, /CHOOSE YOUR ARENA/);
+    assert.doesNotMatch(start, /YOUR SELECTION/);
+    const multiplayer = render({ initialConsole: "PS5", initialGameId: "tekken8" });
+    assert.match(multiplayer, /PICK YOUR/);
+    assert.match(multiplayer, /WITH FRIENDS/);
+    assert.match(multiplayer, /Tekken 8/);
+    assert.match(multiplayer, /Number of local players/);
+    const racing = render({ initialConsole: "G29 Racing Wheel", initialGameId: "forza5" });
+    assert.match(racing, /Forza Horizon 5/);
+    assert.match(racing, /ONE DRIVER PER WHEEL/);
+    assert.doesNotMatch(racing, /WITH FRIENDS/);
+  } finally {
+    await vite.close();
+  }
+});
